@@ -1,7 +1,6 @@
-name: Deploy on GitHub Pages 
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
@@ -36,16 +35,19 @@ jobs:
           bun-version: 1.1.8
       - name: Install dependencies
         run: bun install
+      
       - name: Build
-        run: bun run build
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+        env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
+        run: |
+          bun run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
-          path: './dist'
-      - name: Deploy to GitHub Pages
+          # this should match the `pages` option in your adapter-static options
+          path: './build'
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
 
