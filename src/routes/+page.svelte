@@ -85,6 +85,28 @@
 		return std_dev;
 	}
 
+    function saveTemplateAsFile(filename: string, dataObjToWrite: object) {
+        const blob = new Blob([JSON.stringify(dataObjToWrite, null, 2)], { type: "text/json" });
+        const link = document.createElement("a");
+
+        link.download = filename;
+        link.href = window.URL.createObjectURL(blob);
+        link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+
+        const evt = new MouseEvent("click", {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+        });
+
+        link.dispatchEvent(evt);
+        link.remove()
+    };
+
+    function saveData() {
+        saveTemplateAsFile('данные.json', data);
+    }
+
 	function calculate(_obj: any) {
 		const subject_calc_by_respondents = data.generated.map((form) => {
 			return {
@@ -238,7 +260,9 @@
 <textarea bind:value={subjectTextArea}></textarea>
 <div>
     <button on:click={generate}>Генерировать</button>
-    <button on:click={calculate}>Вычислить</button>    
+    <button on:click={calculate}>Вычислить</button>   
+    <button on:click={saveData}>Сохранить данные</button>    
+ 
 </div>
 
 <div id="table_output">
