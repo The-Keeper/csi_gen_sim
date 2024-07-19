@@ -113,7 +113,7 @@
 			};
 		});
 		console.log('total', total_by_respondents);
-		let crerion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
+		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
 				subjects: subject_calc_by_respondents.map((form, form_idx) => {
 					const weighted_sum_for_this_subj = sum(
@@ -129,7 +129,7 @@
 				})
 			};
 		});
-		console.log('criterion scores', crerion_calc_by_subj);
+		console.log('criterion scores', criterion_calc_by_subj);
 	}
 </script>
 
