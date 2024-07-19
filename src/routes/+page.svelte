@@ -38,12 +38,12 @@
                 }[],
                 total_satisfaction_percent: number,
                 deviation: number
-             }[]
+             }[],
+             criteria: [] as {
+                average_score: number,
+                average_weight: number
+            }[]
         },
-        criteria: [] as {
-            average_score: number,
-            average_weight: number
-        }[]
     };
 
     function randomIntFromInterval(min: number, max: number) { 
