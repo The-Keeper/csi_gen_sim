@@ -7,22 +7,29 @@
 		}[];
 	};
 
-	let subjectTextArea = 'Предмет 1\nПредмет 2\nПредмет 3';
+    let subjectTextArea = [...Array(3).keys()].map(val => `Предмет ${val + 1}`).join('\n')
+    let criteriaTextArea = [...Array(10).keys()].map(val => `Критерий ${val + 1}`).join('\n');
+    let all_wgt_min = 5;
+    let all_wgt_max = 10;
+    let all_score_min = 8;
+    let all_score_max = 10;
+
+
 	$: data = {
 		input: {
 			respondents_number: 5,
 			subjects: getSubjectNames(subjectTextArea),
 			criteria: [
-				{ name: 'Критерий 1', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 2', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 3', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 4', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 5', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 6', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 7', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 8', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 9', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
-				{ name: 'Критерий 10', weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 }
+				{ name: 'Критерий 1', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 2', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 3', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 4', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 5', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 6', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 7', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 8', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 9', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
+				{ name: 'Критерий 10', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 }
 			]
 		},
 		generated: [] as {
@@ -58,7 +65,7 @@
 	}
 
 	function getSubjectNames(stringValue: string) {
-		return stringValue.split('\n').filter((s) => s.trim() != '');
+		return stringValue.split('\n').filter((s) => s.trim() != '').map(name => name.trim());
 	}
 
 	function sum(array: number[]) {
@@ -161,11 +168,42 @@
         
         return { criterion_calc_by_subj, total_by_subject, criteria_total, min_max_crit_by_subj }
 	}
+
+    function fill_criteria_names() {
+		const criteria_names =  criteriaTextArea.split('\n').filter((s) => s.trim() != '');
+        data.input.criteria = criteria_names.map((crit, crit_idx) => {
+            return {
+                name: crit.trim(),
+                score_min: all_score_min,
+                score_max: all_score_max,
+                weight_min: all_wgt_min,
+                weight_max: all_wgt_max
+            }
+        })
+
+    }
 </script>
 
 <div>
     <div>
         <input type="number" bind:value={data.input.respondents_number} />
+        <details>
+            <summary>Заполнить названия критериев</summary>
+            <textarea bind:value={criteriaTextArea}></textarea>
+            <div>
+                <label for="all_wgt_min">Вес от</label>
+                <input id="all_wgt_min" type="number" min="1" max="10" bind:value={all_wgt_min} />
+                <label for="all_wgt_max">до</label>
+                <input id="all_wgt_max" type="number" min="1" max="10" bind:value={all_wgt_max} />
+            </div>
+            <div>
+                <label for="all_score_min">Балл от</label>
+                <input id="all_score_min" type="number" min="1" max="10" bind:value={all_score_min} />
+                <label for="all_score_max">до</label>
+                <input id="all_score_max" type="number" min="1" max="10" bind:value={all_score_max} />
+            </div>   
+            <button on:click={fill_criteria_names}>Заполнить</button>         
+        </details>    
     </div>
     <div>
         {#each data.input.criteria as criterion, i}
