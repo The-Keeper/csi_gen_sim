@@ -15,6 +15,7 @@
     let all_score_max = 10;
 
 	let files: FileList;
+    let fileInput: any;
     $: if (files) {
         let reader = new FileReader();
 
@@ -24,6 +25,7 @@
             reader.readAsText(file);
             reader.onload = e => {
                  data = JSON.parse(String(e.target?.result) || '');
+                 fileInput.value = '';
             };
         }
 	}
@@ -133,7 +135,7 @@
 				})
 			};
 		});
-		console.log('by subjects', subject_calc_by_respondents);
+		// console.log('by subjects', subject_calc_by_respondents);
 		const total_by_respondents = subject_calc_by_respondents.map((form) => {
 			return {
 				subjects: form.subjects.map((subj) => {
@@ -143,7 +145,7 @@
 				})
 			};
 		});
-		console.log('total', total_by_respondents);
+		// console.log('total', total_by_respondents);
 		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
 				subjects: data.input.subjects.map((subject, subject_idx) => {
@@ -163,7 +165,7 @@
 				})
 			};
 		});
-		console.log('criterion scores', criterion_calc_by_subj);
+		// console.log('criterion scores', criterion_calc_by_subj);
 		const total_by_subject = data.input.subjects.map((subj, subj_idx) => {
 			const total =
 				avg(total_by_respondents.map((form) => form.subjects[subj_idx].total_score));
@@ -171,7 +173,7 @@
 				avg(criterion_calc_by_subj.map((calc) => calc.subjects[subj_idx].deviation));
 			return { total, deviation };
 		});
-		console.log('total_by_subject', total_by_subject);
+		// console.log('total_by_subject', total_by_subject);
         const criteria_total = data.input.criteria.map((crit, crit_idx) => {
             const weight = sum(data.generated.map((form) => {
               return sum(form.subjects.map(subj => subj.criteria[crit_idx].weight))/form.subjects.length
@@ -272,10 +274,10 @@
     <button on:click={calculate}>Вычислить</button>   
     <button on:click={saveData}>Сохранить данные</button> 
     <label for="datafile">Загрузить данные из файла:</label>   
-<input accept="text/json" bind:files id="datafile" name="datafile" type="file"/>
+<input accept="text/json" bind:files id="datafile" name="datafile" type="file" bind:this={fileInput}/>
 
 </div>
-{#if output}
+{#if data.generated.length > 0}
 <div id="table_output">
     <table>
         {#each data.input.subjects as subject, i}
@@ -309,7 +311,7 @@
 </div>
 {/if}
 
-{#if output}
+{#if data.generated.length > 0}
 <div id="text_report">
     {#each output.min_max_crit_by_subj as out, j}
             
