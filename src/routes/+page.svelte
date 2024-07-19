@@ -30,10 +30,10 @@
         }
 	}
 
-	$: data = {
+	let data = {
 		input: {
 			respondents_number: 5,
-			subjects: getSubjectNames(subjectTextArea),
+			subjects: ['Предмет 1', 'Предмет 2'],
 			criteria: [
 				{ name: 'Критерий 1', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
 				{ name: 'Критерий 2', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
@@ -52,6 +52,9 @@
 			subjects: GeneratedSubjectT[];
 		}[]
 	};
+    $: if (subjectTextArea.length > 0) {
+        data.input.subjects = getSubjectNames(subjectTextArea);
+    }
     $: output = calculate(data.generated);
 
 	function randomIntFromInterval(min: number, max: number) {
