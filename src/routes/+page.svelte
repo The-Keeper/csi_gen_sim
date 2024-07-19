@@ -79,6 +79,25 @@
 <div>
     <input type="number" bind:value={data.input.respondents_number} />
 </div>
+<div>
+	{#each data.input.criteria as criterion, i}
+    <input bind:value={criterion.name}/>
+
+        <div>
+            <label for="wgt_min">Вес  от</label>
+            <input id="wgt_min" type="number" min="1" max="10" bind:value={criterion.weight_min}/>
+            <label for="wgt_max">до</label>
+            <input id="wgt_max" type="number" min="1" max="10" bind:value={criterion.weight_max}/>
+        </div>
+        <div>
+            <label for="score_min">Балл от</label>
+            <input id="score_min" type="number" min="1" max="10" bind:value={criterion.score_min}/>
+            <label for="score_max">до</label>
+            <input id="score_max" type="number" min="1" max="10" bind:value={criterion.score_max}/>
+        </div>
+	{/each}
+</div>
+
 <textarea bind:value={subjectTextArea}></textarea>
 <pre>{ JSON.stringify(data, null, 2) }</pre>
 <button on:click="{generate}">Генерировать</button>
