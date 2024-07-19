@@ -24,8 +24,11 @@
 		for (const file of files) {
             reader.readAsText(file);
             reader.onload = e => {
-                 data = JSON.parse(String(e.target?.result) || '');
-                 fileInput.value = '';
+                let result = JSON.parse(String(e.target?.result) || '');
+                subjectTextArea = result.input.subjects.join('\n');
+                criteriaTextArea = result.input.criteria.map((crit: any) => crit.name).join('\n');
+                data = result;
+                fileInput.value = '';
             };
         }
 	}
