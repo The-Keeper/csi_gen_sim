@@ -72,6 +72,10 @@
 		return array.reduce((partial_sum, a) => partial_sum + a, 0);
 	}
 
+	function avg(array: number[]) {
+		return sum(array) / array.length;
+	}
+
 	function standardDeviation(numbers: number[]) {
 		let mean = sum(numbers) / numbers.length;
 		let std_dev = 0;
@@ -151,6 +155,13 @@
 
         })
 
+
+        const totals = { 
+            score: avg(total_by_subject.map(calc => calc.total)),
+            deviation: avg(total_by_subject.map(calc => calc.deviation)),
+            criteria_wgt: avg(criteria_total.map(calc => calc.weight))
+        }
+
         const min_max_crit_by_subj = data.input.subjects.map((subj, subj_idx) => {
             const crit_data_for_this_subj = criterion_calc_by_subj.map(crit_data => crit_data.subjects[subj_idx]);
             const scores = crit_data_for_this_subj.map( c => c.mean_norm_score)
@@ -164,9 +175,8 @@
                 min_score, max_score, min_criterion_idx, max_criterion_idx
             }
         })  
-        console.log(min_max_crit_by_subj)
         
-        return { criterion_calc_by_subj, total_by_subject, criteria_total, min_max_crit_by_subj }
+        return { criterion_calc_by_subj, total_by_subject, criteria_total, min_max_crit_by_subj, totals }
 	}
 
     function fill_criteria_names() {
@@ -250,12 +260,15 @@
             {#each output.criteria_total as crit_total, i}
             <td> { (crit_total.score * 10).toFixed(1) }% ± { (crit_total.deviation * 10).toFixed(1) }</td>
              {/each}
+             <td><b>{ (output.totals.score * 10).toFixed(1) }%</b></td>
+             <td><b>{ (output.totals.deviation * 10).toFixed(1) }</b></td>
         </tr>
         <tr>
             <td></td><td></td>
             {#each output.criteria_total as crit_total, i}
             <td> { (crit_total.weight).toFixed(1) }</td>
              {/each}
+             <td><b>{ (output.totals.criteria_wgt).toFixed(1) }</b></td>
         </tr>
     </table>
 </div>
