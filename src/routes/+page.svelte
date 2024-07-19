@@ -14,6 +14,19 @@
     let all_score_min = 8;
     let all_score_max = 10;
 
+	let files: FileList;
+    $: if (files) {
+        let reader = new FileReader();
+
+		// Note that `files` is of type `FileList`, not an Array:
+		// https://developer.mozilla.org/en-US/docs/Web/API/FileList
+		for (const file of files) {
+            reader.readAsText(file);
+            reader.onload = e => {
+                 data = JSON.parse(String(e.target?.result) || '');
+            };
+        }
+	}
 
 	$: data = {
 		input: {
@@ -37,7 +50,6 @@
 			subjects: GeneratedSubjectT[];
 		}[]
 	};
-    $: generation_trigger = generate(data.input)
     $: output = calculate(data.generated);
 
 	function randomIntFromInterval(min: number, max: number) {
@@ -258,10 +270,12 @@
 <div>
     <button on:click={generate}>Генерировать</button>
     <button on:click={calculate}>Вычислить</button>   
-    <button on:click={saveData}>Сохранить данные</button>    
- 
-</div>
+    <button on:click={saveData}>Сохранить данные</button> 
+    <label for="datafile">Загрузить данные из файла:</label>   
+<input accept="text/json" bind:files id="datafile" name="datafile" type="file"/>
 
+</div>
+{#if output}
 <div id="table_output">
     <table>
         {#each data.input.subjects as subject, i}
@@ -293,11 +307,16 @@
         </tr>
     </table>
 </div>
+{/if}
 
+{#if output}
 <div id="text_report">
     {#each output.min_max_crit_by_subj as out, j}
+            
         <p>По дисциплине «{ out.name }» наибольшее значение удовлетворённости студентов наблюдается по критерию «{ data.input.criteria[out.max_criterion_idx].name }»: {(out.max_score * 10).toFixed(1)}%, а самое низкое значение — по критерию «{ data.input.criteria[out.min_criterion_idx].name }»: {(out.min_score * 10).toFixed(1)}%.</p>
     {/each}
 </div>
+{/if}
+
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 <!-- <pre>{JSON.stringify(output, null, 2)}</pre> -->
