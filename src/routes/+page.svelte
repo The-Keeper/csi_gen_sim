@@ -7,10 +7,11 @@
         }[]
     }
 
-	let data = {
+    let subjectTextArea = "Предмет 1\nПредмет 2\nПредмет 3";
+	$: data = {
         input: {
             respondents_number: 5,
-            subjects: ['Предмет 1', 'Предмет 2', 'Предмет 3'],
+            subjects: getSubjectNames(subjectTextArea),
             criteria: [
                 { name: "Критерий 1",  weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
                 { name: "Критерий 2",  weight_min: 5, weight_max: 10, score_min: 5, score_max: 10 },
@@ -70,7 +71,14 @@
         }
         data.generated = result;
     }
+
+    function getSubjectNames(stringValue: string) {
+        return stringValue.split("\n").filter(s => s.trim() != "");
+    }
 </script>
-<textarea></textarea>
+<div>
+    <input type="number" bind:value={data.input.respondents_number} />
+</div>
+<textarea bind:value={subjectTextArea}></textarea>
 <pre>{ JSON.stringify(data, null, 2) }</pre>
 <button on:click="{generate}">Генерировать</button>
