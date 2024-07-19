@@ -115,18 +115,16 @@
 		console.log('total', total_by_respondents);
 		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
-				subjects: subject_calc_by_respondents.map((form, form_idx) => {
-					const weighted_sum_for_this_subj = sum(
-						form.subjects.map((subj, subj_idx) => subj.criteria[crit_idx].score_norm)
-					);
-                    const std_dev = standardDeviation(
-                        form.subjects.map((subj, subj_idx) => subj.criteria[crit_idx].score)
-                    )
-					return {
-						criterion_score: weighted_sum_for_this_subj / subject_calc_by_respondents.length,
-                        std_dev
-					};
-				})
+				subjects: data.input.subjects.map((subject, subject_idx) => {
+                    const this_subj_norm_scores_by_crit_sum =  sum(subject_calc_by_respondents.map(form => form.subjects[subject_idx].criteria[crit_idx].score
+));
+                    const deviation = standardDeviation(subject_calc_by_respondents.map(form => form.subjects[subject_idx].criteria[crit_idx].score
+));
+                    return { 
+                        mean_norm_score: this_subj_norm_scores_by_crit_sum / subject_calc_by_respondents.length,
+                        deviation
+                    }
+                })
 			};
 		});
 		console.log('criterion scores', criterion_calc_by_subj);
