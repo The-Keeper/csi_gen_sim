@@ -30,13 +30,14 @@
 			subjects: GeneratedSubjectT[];
 		}[]
 	};
+    $: generation_trigger = generate(data.input)
     $: output = calculate(data.generated);
 
 	function randomIntFromInterval(min: number, max: number) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
 
-	function generate() {
+	function generate(_obj: any) {
 		let result = [] as { name: string; subjects: GeneratedSubjectT[] }[];
 		for (let respondent_idx = 0; respondent_idx < data.input.respondents_number; respondent_idx++) {
 			let form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as GeneratedSubjectT[] };
@@ -73,7 +74,7 @@
 		return std_dev;
 	}
 
-	function calculate(obj: any) {
+	function calculate(_obj: any) {
 		const subject_calc_by_respondents = data.generated.map((form) => {
 			return {
 				subjects: form.subjects.map((subj_data) => {
@@ -142,7 +143,23 @@
             return { weight, score, deviation }
 
         })
-        return { criterion_calc_by_subj, total_by_subject, criteria_total }
+
+        const min_max_crit_by_subj = data.input.subjects.map((subj, subj_idx) => {
+            const crit_data_for_this_subj = criterion_calc_by_subj.map(crit_data => crit_data.subjects[subj_idx]);
+            const scores = crit_data_for_this_subj.map( c => c.mean_norm_score)
+            const min_score = Math.min(...scores);
+            const max_score = Math.max(...scores);
+            const min_criterion_idx = scores.findIndex(score => score == min_score);
+            const max_criterion_idx = scores.findIndex(score => score == max_score);
+
+            return {
+                name: subj,
+                min_score, max_score, min_criterion_idx, max_criterion_idx
+            }
+        })  
+        console.log(min_max_crit_by_subj)
+        
+        return { criterion_calc_by_subj, total_by_subject, criteria_total, min_max_crit_by_subj }
 	}
 </script>
 
@@ -176,5 +193,39 @@
     <button on:click={calculate}>Вычислить</button>    
 </div>
 
+<div id="table_output">
+    <table>
+        {#each data.input.subjects as subject, i}
+            <tr>
+                <td>{ i + 1 }</td>
+                <td>{ subject }</td>
+                
+                {#each output.criterion_calc_by_subj as crit_by_subj, j}
+                <td> { (crit_by_subj.subjects[i].mean_norm_score * 10).toFixed(1) }% ± { (crit_by_subj.subjects[i].deviation * 10).toFixed(1) }</td>
+                 {/each}
+                  <td> { (output.total_by_subject[i].total * 10).toFixed(1) }%</td>
+                  <td> { (output.total_by_subject[i].deviation * 10).toFixed(1) }</td>
+            </tr>
+        {/each}
+        <tr>
+            <td></td><td></td>
+            {#each output.criteria_total as crit_total, i}
+            <td> { (crit_total.score * 10).toFixed(1) }% ± { (crit_total.deviation * 10).toFixed(1) }</td>
+             {/each}
+        </tr>
+        <tr>
+            <td></td><td></td>
+            {#each output.criteria_total as crit_total, i}
+            <td> { (crit_total.weight).toFixed(1) }</td>
+             {/each}
+        </tr>
+    </table>
+</div>
+
+<div id="text_report">
+    {#each output.min_max_crit_by_subj as out, j}
+        <p>По дисциплине «{ out.name }» наибольшее значение удовлетворённости студентов наблюдается по критерию «{ data.input.criteria[out.max_criterion_idx].name }»: {(out.max_score * 10).toFixed(1)}%, а самое низкое значение — по критерию «{ data.input.criteria[out.min_criterion_idx].name }»: {(out.min_score * 10).toFixed(1)}%.</p>
+    {/each}
+</div>
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
-<pre>{JSON.stringify(output, null, 2)}</pre>
+<!-- <pre>{JSON.stringify(output, null, 2)}</pre> -->
