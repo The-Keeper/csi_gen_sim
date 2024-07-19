@@ -116,18 +116,34 @@
 		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
 				subjects: data.input.subjects.map((subject, subject_idx) => {
-                    const this_subj_norm_scores_by_crit_sum =  sum(subject_calc_by_respondents.map(form => form.subjects[subject_idx].criteria[crit_idx].score
-));
-                    const deviation = standardDeviation(subject_calc_by_respondents.map(form => form.subjects[subject_idx].criteria[crit_idx].score
-));
-                    return { 
-                        mean_norm_score: this_subj_norm_scores_by_crit_sum / subject_calc_by_respondents.length,
-                        deviation
-                    }
-                })
+					const this_subj_norm_scores_by_crit_sum = sum(
+						subject_calc_by_respondents.map(
+							(form) => form.subjects[subject_idx].criteria[crit_idx].score
+						)
+					);
+					const deviation = standardDeviation(
+						subject_calc_by_respondents.map(
+							(form) => form.subjects[subject_idx].criteria[crit_idx].score
+						)
+					);
+					return {
+						mean_norm_score: this_subj_norm_scores_by_crit_sum / subject_calc_by_respondents.length,
+						deviation
+					};
+				})
 			};
 		});
 		console.log('criterion scores', criterion_calc_by_subj);
+		const total_by_subject = data.input.subjects.map((subj, subj_idx) => {
+			const total =
+				sum(total_by_respondents.map((form) => form.subjects[subj_idx].total_score)) /
+				total_by_respondents.length;
+			const deviation =
+				sum(criterion_calc_by_subj.map((calc) => calc.subjects[subj_idx].deviation)) /
+				criterion_calc_by_subj.length;
+			return { total, deviation };
+		});
+		console.log('total_by_subject', total_by_subject);
 	}
 </script>
 
