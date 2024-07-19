@@ -28,24 +28,9 @@
 		generated: [] as {
 			name: string;
 			subjects: GeneratedSubjectT[];
-		}[],
-		output: {
-			subjects: [] as {
-				name: string;
-				criteria: {
-					name: string;
-					satisfaction_percent: number;
-					deviation: number;
-				}[];
-				total_satisfaction_percent: number;
-				deviation: number;
-			}[],
-			criteria: [] as {
-				average_score: number;
-				average_weight: number;
-			}[]
-		}
+		}[]
 	};
+    $: output = calculate(data.generated);
 
 	function randomIntFromInterval(min: number, max: number) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
@@ -88,7 +73,7 @@
 		return std_dev;
 	}
 
-	function calculate() {
+	function calculate(obj: any) {
 		const subject_calc_by_respondents = data.generated.map((form) => {
 			return {
 				subjects: form.subjects.map((subj_data) => {
@@ -144,33 +129,52 @@
 			return { total, deviation };
 		});
 		console.log('total_by_subject', total_by_subject);
+        const criteria_total = data.input.criteria.map((crit, crit_idx) => {
+            const weight = sum(data.generated.map((form) => {
+              return sum(form.subjects.map(subj => subj.criteria[crit_idx].weight))/form.subjects.length
+            }))/ data.generated.length;
+            
+            const score = sum(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.mean_norm_score)) / data.input.subjects.length;
+
+            const deviation = sum(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.deviation)) / data.input.subjects.length;
+
+
+            return { weight, score, deviation }
+
+        })
+        return { criterion_calc_by_subj, total_by_subject, criteria_total }
 	}
 </script>
 
 <div>
-	<input type="number" bind:value={data.input.respondents_number} />
-</div>
-<div>
-	{#each data.input.criteria as criterion, i}
-		<input bind:value={criterion.name} />
-
-		<div>
-			<label for="wgt_min">Вес от</label>
-			<input id="wgt_min" type="number" min="1" max="10" bind:value={criterion.weight_min} />
-			<label for="wgt_max">до</label>
-			<input id="wgt_max" type="number" min="1" max="10" bind:value={criterion.weight_max} />
-		</div>
-		<div>
-			<label for="score_min">Балл от</label>
-			<input id="score_min" type="number" min="1" max="10" bind:value={criterion.score_min} />
-			<label for="score_max">до</label>
-			<input id="score_max" type="number" min="1" max="10" bind:value={criterion.score_max} />
-		</div>
-	{/each}
+    <div>
+        <input type="number" bind:value={data.input.respondents_number} />
+    </div>
+    <div>
+        {#each data.input.criteria as criterion, i}
+            <input bind:value={criterion.name} />
+    
+            <div>
+                <label for="wgt_min">Вес от</label>
+                <input id="wgt_min" type="number" min="1" max="10" bind:value={criterion.weight_min} />
+                <label for="wgt_max">до</label>
+                <input id="wgt_max" type="number" min="1" max="10" bind:value={criterion.weight_max} />
+            </div>
+            <div>
+                <label for="score_min">Балл от</label>
+                <input id="score_min" type="number" min="1" max="10" bind:value={criterion.score_min} />
+                <label for="score_max">до</label>
+                <input id="score_max" type="number" min="1" max="10" bind:value={criterion.score_max} />
+            </div>
+        {/each}
+    </div>    
 </div>
 
 <textarea bind:value={subjectTextArea}></textarea>
-<button on:click={generate}>Генерировать</button>
-<button on:click={calculate}>Вычислить</button>
+<div>
+    <button on:click={generate}>Генерировать</button>
+    <button on:click={calculate}>Вычислить</button>    
+</div>
 
-<pre>{JSON.stringify(data, null, 2)}</pre>
+<!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
+<pre>{JSON.stringify(output, null, 2)}</pre>
