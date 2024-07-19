@@ -309,9 +309,9 @@
         <tr>
             <td></td><td></td>
             {#each output.criteria_total as crit_total, i}
-            <td> { (crit_total.weight).toFixed(1) }</td>
+            <td> { (crit_total.weight).toFixed(2) }</td>
              {/each}
-             <td><b>{ (output.totals.criteria_wgt).toFixed(1) }</b></td>
+             <td><b>{ (output.totals.criteria_wgt).toFixed(2) }</b></td>
         </tr>
     </table>
 </div>
