@@ -135,7 +135,7 @@
 		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
 				subjects: data.input.subjects.map((subject, subject_idx) => {
-					const this_subj_norm_scores_by_crit_sum = sum(
+					const mean_norm_score = avg(
 						subject_calc_by_respondents.map(
 							(form) => form.subjects[subject_idx].criteria[crit_idx].score
 						)
@@ -146,8 +146,7 @@
 						)
 					);
 					return {
-						mean_norm_score: this_subj_norm_scores_by_crit_sum / subject_calc_by_respondents.length,
-						deviation
+						mean_norm_score, deviation
 					};
 				})
 			};
@@ -155,11 +154,9 @@
 		console.log('criterion scores', criterion_calc_by_subj);
 		const total_by_subject = data.input.subjects.map((subj, subj_idx) => {
 			const total =
-				sum(total_by_respondents.map((form) => form.subjects[subj_idx].total_score)) /
-				total_by_respondents.length;
+				avg(total_by_respondents.map((form) => form.subjects[subj_idx].total_score));
 			const deviation =
-				sum(criterion_calc_by_subj.map((calc) => calc.subjects[subj_idx].deviation)) /
-				criterion_calc_by_subj.length;
+				avg(criterion_calc_by_subj.map((calc) => calc.subjects[subj_idx].deviation));
 			return { total, deviation };
 		});
 		console.log('total_by_subject', total_by_subject);
@@ -168,9 +165,9 @@
               return sum(form.subjects.map(subj => subj.criteria[crit_idx].weight))/form.subjects.length
             }))/ data.generated.length;
             
-            const score = sum(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.mean_norm_score)) / data.input.subjects.length;
+            const score = avg(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.mean_norm_score));
 
-            const deviation = sum(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.deviation)) / data.input.subjects.length;
+            const deviation = avg(criterion_calc_by_subj[crit_idx].subjects.map(subj_calc => subj_calc.deviation));
 
 
             return { weight, score, deviation }
