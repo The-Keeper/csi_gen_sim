@@ -257,13 +257,13 @@
 </script>
 
 <div class="flex flex-wrap gap-2">
-	<div>
+	<div class="flex-col gap-2">
 		<div class="flex-col">
-			<div>
+			<div class="block m-2">
 				<button on:click={generate}>Генерировать</button>
 				<button on:click={calculate}>Вычислить</button>
 			</div>
-			<div>
+			<div class="block m-2">
 				<button on:click={saveData}>Сохранить данные</button>
 				<label for="datafile">Загрузить данные из файла:</label>
 				<input
@@ -287,18 +287,18 @@
 		</div>
 		<div>
 			<label class="block" for="subject_names">Названия предметов:</label>
-			<textarea class="block w-45 h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
+			<textarea class="block w-80 h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
 		</div>
 		<details>
 			<summary>Заполнить названия критериев</summary>
-			<textarea class="block w-45 h-40" bind:value={criteriaTextArea}></textarea>
-			<div>
+			<textarea class="block w-80 h-40" bind:value={criteriaTextArea}></textarea>
+			<div class="flex items-center justify-end gap-1">
 				<label for="all_wgt_min">Вес от</label>
 				<input id="all_wgt_min" type="number" min="1" max="10" bind:value={all_wgt_min} />
 				<label for="all_wgt_max">до</label>
 				<input id="all_wgt_max" type="number" min="1" max="10" bind:value={all_wgt_max} />
 			</div>
-			<div>
+			<div class="flex items-center justify-end gap-1">
 				<label for="all_score_min">Балл от</label>
 				<input id="all_score_min" type="number" min="1" max="10" bind:value={all_score_min} />
 				<label for="all_score_max">до</label>
@@ -309,7 +309,7 @@
 	</div>
     <details open>
         <summary>Критерии</summary>
-        <div class="flex-col flex-wrap max-h-sm inline h-sm">
+        <div class="flex flex-wrap inline w-160 gap-2">
             {#each data.input.criteria as criterion, i}
                 <CriterionCard bind:criterion />
             {/each}
