@@ -233,12 +233,19 @@
     }
 </script>
 
-<div>
+<div class="flex">
     <div>
-        <input type="number" bind:value={data.input.respondents_number} />
+        <div>
+            <label class="block" for="respondents_number">Число респондентов:</label>
+            <input class="block" id="respondents_number" type="number" bind:value={data.input.respondents_number} />    
+        </div>
+        <div>
+            <label class="block" for="subject_names">Названия предметов:</label>
+            <textarea class="block w-45 h-40" id="subject_names" bind:value={subjectTextArea}></textarea>    
+        </div>
         <details>
             <summary>Заполнить названия критериев</summary>
-            <textarea bind:value={criteriaTextArea}></textarea>
+            <textarea class="block w-45 h-40" bind:value={criteriaTextArea}></textarea>
             <div>
                 <label for="all_wgt_min">Вес от</label>
                 <input id="all_wgt_min" type="number" min="1" max="10" bind:value={all_wgt_min} />
@@ -252,7 +259,18 @@
                 <input id="all_score_max" type="number" min="1" max="10" bind:value={all_score_max} />
             </div>   
             <button on:click={fill_criteria_names}>Заполнить</button>         
-        </details>    
+        </details>
+        <div class="flex-col">
+            <div>
+                <button on:click={generate}>Генерировать</button>
+                <button on:click={calculate}>Вычислить</button>            
+            </div>
+            <div>
+                <button on:click={saveData}>Сохранить данные</button> 
+                <label for="datafile">Загрузить данные из файла:</label>   
+                 <input accept="text/json" bind:files id="datafile" name="datafile" type="file" bind:this={fileInput}/>
+            </div>
+        </div>
     </div>
     <div>
         {#each data.input.criteria as criterion, i}
@@ -274,15 +292,7 @@
     </div>    
 </div>
 
-<textarea bind:value={subjectTextArea}></textarea>
-<div>
-    <button on:click={generate}>Генерировать</button>
-    <button on:click={calculate}>Вычислить</button>   
-    <button on:click={saveData}>Сохранить данные</button> 
-    <label for="datafile">Загрузить данные из файла:</label>   
-<input accept="text/json" bind:files id="datafile" name="datafile" type="file" bind:this={fileInput}/>
 
-</div>
 {#if data.generated.length > 0}
 <div id="table_output">
     <table>
