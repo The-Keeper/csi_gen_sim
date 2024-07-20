@@ -367,6 +367,6 @@
 		{/if}
 	</div>
 </div>
-
+<footer class="text-center">Лицензия MIT (никаких гарантий)</footer>
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 <!-- <pre>{JSON.stringify(output, null, 2)}</pre> -->
