@@ -276,13 +276,13 @@
         {#each data.input.criteria as criterion, i}
             <input bind:value={criterion.name} />
     
-            <div>
+            <div class="ml-auto mr-0">
                 <label for="wgt_min">Вес от</label>
                 <input id="wgt_min" type="number" min="1" max="10" bind:value={criterion.weight_min} />
                 <label for="wgt_max">до</label>
                 <input id="wgt_max" type="number" min="1" max="10" bind:value={criterion.weight_max} />
             </div>
-            <div>
+            <div class="ml-auto mr-0">
                 <label for="score_min">Балл от</label>
                 <input id="score_min" type="number" min="1" max="10" bind:value={criterion.score_min} />
                 <label for="score_max">до</label>
@@ -294,7 +294,8 @@
 
 
 {#if data.generated.length > 0}
-<div id="table_output">
+<details id="table_output">
+    <summary>Выходная таблица данных</summary>
     <table>
         {#each data.input.subjects as subject, i}
             <tr>
@@ -324,16 +325,16 @@
              <td><b>{ (output.totals.criteria_wgt).toFixed(2) }</b></td>
         </tr>
     </table>
-</div>
+</details>
 {/if}
 
 {#if data.generated.length > 0}
-<div id="text_report">
+<details id="text_report">
+    <summary>Выходной отчёт</summary>
     {#each output.min_max_crit_by_subj as out, j}
-            
         <p>По дисциплине «{ out.name }» наибольшее значение удовлетворённости студентов наблюдается по критерию «{ data.input.criteria[out.max_criterion_idx].name }»: {(out.max_score * 10).toFixed(1)}%, а самое низкое значение — по критерию «{ data.input.criteria[out.min_criterion_idx].name }»: {(out.min_score * 10).toFixed(1)}%.</p>
     {/each}
-</div>
+</details>
 {/if}
 
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
