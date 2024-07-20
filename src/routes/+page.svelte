@@ -9,6 +9,14 @@
 		}[];
 	};
 
+	type CriterionT = {
+		name: string,
+		score_min: number,
+		score_max: number,
+		weight_min: number,
+		weight_max: number,
+	};
+
 	let subjectTextArea = [...Array(3).keys()].map((val) => `Предмет ${val + 1}`).join('\n');
 	let criteriaTextArea = [...Array(10).keys()].map((val) => `Критерий ${val + 1}`).join('\n');
 	let all_wgt_min = 5;
@@ -39,7 +47,7 @@
 		input: {
 			respondents_number: 5,
 			subjects: ['Предмет 1', 'Предмет 2'],
-			criteria: []
+			criteria: [] as CriterionT[],
 		},
 		generated: [] as {
 			name: string;
@@ -81,8 +89,6 @@
 			.filter((s) => s.trim() != '')
 			.map((name) => name.trim());
 	}
-
-	fill_criteria_names();
 
 	function sum(array: number[]) {
 		return array.reduce((partial_sum, a) => partial_sum + a, 0);
@@ -245,6 +251,9 @@
 			};
 		});
 	}
+
+	fill_criteria_names();
+
 </script>
 
 <div class="flex flex-wrap gap-2">
