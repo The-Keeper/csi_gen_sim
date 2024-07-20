@@ -1,5 +1,6 @@
 <script lang="ts">
-  import 'uno.css'
+  import '$lib/fylgja.css';
+  import 'uno.css';
 </script>
 
 <main class="mx-auto">
