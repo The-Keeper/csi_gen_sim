@@ -265,15 +265,17 @@
 			</div>
 			<div class="block m-2">
 				<button on:click={saveData}>Сохранить данные</button>
-				<label for="datafile">Загрузить данные из файла:</label>
-				<input
-					accept="text/json"
-					bind:files
-					id="datafile"
-					name="datafile"
-					type="file"
-					bind:this={fileInput}
-				/>
+				<div>
+					<label for="datafile">Загрузить данные из файла:</label>
+					<input class="w-sm"
+						accept="text/json"
+						bind:files
+						id="datafile"
+						name="datafile"
+						type="file"
+						bind:this={fileInput}
+					/>
+				</div>
 			</div>
 		</div>
 		<div>
