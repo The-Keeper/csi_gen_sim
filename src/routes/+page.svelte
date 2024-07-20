@@ -39,18 +39,7 @@
 		input: {
 			respondents_number: 5,
 			subjects: ['Предмет 1', 'Предмет 2'],
-			criteria: [
-				{ name: 'Критерий 1', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 2', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 3', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 4', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 5', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 6', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 7', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 8', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 9', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 },
-				{ name: 'Критерий 10', weight_min: 5, weight_max: 10, score_min: 8, score_max: 10 }
-			]
+			criteria: []
 		},
 		generated: [] as {
 			name: string;
@@ -92,6 +81,8 @@
 			.filter((s) => s.trim() != '')
 			.map((name) => name.trim());
 	}
+
+	fill_criteria_names();
 
 	function sum(array: number[]) {
 		return array.reduce((partial_sum, a) => partial_sum + a, 0);
