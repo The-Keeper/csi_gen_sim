@@ -283,7 +283,7 @@
 				</div>
 			</div>
 		</div>
-		<div>
+		<div class="m-2">
 			<label class="block" for="respondents_number">Число респондентов:</label>
 			<input
 				class="block"
