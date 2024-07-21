@@ -299,19 +299,22 @@
 		<details>
 			<summary>Заполнить названия критериев</summary>
 			<textarea class="block w-full h-40" bind:value={criteriaTextArea}></textarea>
-			<WeightScoreBlock 
+		
+			<div class="flex flex-wrap justify-items-start">
+				<WeightScoreBlock 
 				bind:weight_min = {all_wgt_min}
 				bind:weight_max = {all_wgt_max}
 				bind:score_min = {all_score_min}
 				bind:score_max = {all_score_max}
 			></WeightScoreBlock>
 
-			<button on:click={fill_criteria_names}>Заполнить</button>
+			<button class="m-2" on:click={fill_criteria_names}>Заполнить</button>
+			</div>
 		</details>
 	</div>
-    <details open>
+    <details class="w-200 sm:w-full" open>
         <summary>Критерии</summary>
-        <div class="flex flex-wrap inline w-160 gap-2">
+        <div class="flex flex-wrap w-160 gap-2">
             {#each data.input.criteria as criterion, i}
                 <CriterionCard bind:criterion />
             {/each}
