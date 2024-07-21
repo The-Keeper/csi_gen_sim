@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CriterionCard from '../components/CriterionCard.svelte';
+	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
 
 	type GeneratedSubjectT = {
 		name: string;
@@ -263,15 +264,15 @@
 <div class="flex flex-wrap gap-2">
 	<div class="flex-col gap-2">
 		<div class="flex-col">
-			<div class="block m-2">
-				<button on:click={generate}>Генерировать</button>
-				<button on:click={calculate}>Вычислить</button>
+			<div class="flex flex-wrap m-2">
+				<button class="m-2" on:click={generate}>Генерировать</button>
+				<button class="m-2" on:click={calculate}>Вычислить</button>
 			</div>
-			<div class="block m-2">
-				<button on:click={saveData}>Сохранить данные</button>
+			<div class="flex flex-wrap m-2">
+				<button class="m-2" on:click={saveData}>Сохранить данные</button>
 				<div>
 					<label for="datafile">Загрузить данные из файла:</label>
-					<input class="w-sm"
+					<input class="w-full sm:w-sm"
 						accept="text/json"
 						bind:files
 						id="datafile"
@@ -293,35 +294,34 @@
 		</div>
 		<div>
 			<label class="block" for="subject_names">Названия предметов:</label>
-			<textarea class="block w-80 h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
+			<textarea class="block w-full h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
 		</div>
 		<details>
 			<summary>Заполнить названия критериев</summary>
-			<textarea class="block w-80 h-40" bind:value={criteriaTextArea}></textarea>
-			<div class="flex items-center justify-end gap-1">
-				<label for="all_wgt_min">Вес от</label>
-				<input id="all_wgt_min" type="number" min="1" max="10" bind:value={all_wgt_min} />
-				<label for="all_wgt_max">до</label>
-				<input id="all_wgt_max" type="number" min="1" max="10" bind:value={all_wgt_max} />
+			<div class="flex flex-wrap justify-items-start gap-2">
+
+			<textarea class="block w-full h-40" bind:value={criteriaTextArea}></textarea>
+		
+				<WeightScoreBlock 
+				bind:weight_min = {all_wgt_min}
+				bind:weight_max = {all_wgt_max}
+				bind:score_min = {all_score_min}
+				bind:score_max = {all_score_max}
+			></WeightScoreBlock>
+
+			<button class="m-2" on:click={fill_criteria_names}>Заполнить</button>
 			</div>
-			<div class="flex items-center justify-end gap-1">
-				<label for="all_score_min">Балл от</label>
-				<input id="all_score_min" type="number" min="1" max="10" bind:value={all_score_min} />
-				<label for="all_score_max">до</label>
-				<input id="all_score_max" type="number" min="1" max="10" bind:value={all_score_max} />
-			</div>
-			<button on:click={fill_criteria_names}>Заполнить</button>
 		</details>
 	</div>
-    <details open>
+    <details class="w-full md:w-200" open>
         <summary>Критерии</summary>
-        <div class="flex flex-wrap inline w-160 gap-2">
+        <div class="flex flex-wrap w-full sm:w-160 gap-2">
             {#each data.input.criteria as criterion, i}
                 <CriterionCard bind:criterion />
             {/each}
         </div>
     </details>
-	<div id="output-section" class="flex gap-2">
+	<div id="output-section" class="flex flex-wrap gap-2 lg:flex-nowrap">
 		{#if data.generated.length > 0}
 			<details open id="table_output">
 				<summary>Выходная таблица данных</summary>
