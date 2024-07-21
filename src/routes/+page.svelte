@@ -312,7 +312,7 @@
 			</div>
 		</details>
 	</div>
-    <details class="w-200 sm:w-full" open>
+    <details class="w-200 w-full md:w-200" open>
         <summary>Критерии</summary>
         <div class="flex flex-wrap w-160 gap-2">
             {#each data.input.criteria as criterion, i}
@@ -320,7 +320,7 @@
             {/each}
         </div>
     </details>
-	<div id="output-section" class="flex gap-2">
+	<div id="output-section" class="flex flex-wrap gap-2 lg:flex-nowrap">
 		{#if data.generated.length > 0}
 			<details open id="table_output">
 				<summary>Выходная таблица данных</summary>
