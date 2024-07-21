@@ -254,6 +254,10 @@
 
 	fill_criteria_names();
 
+	function formatNumber(number: number, digits = 1, minimumFractionDigits = 1) {
+		return number.toLocaleString("ru-RU", {maximumFractionDigits: digits, minimumFractionDigits});
+	}
+
 </script>
 
 <div class="flex flex-wrap gap-2">
@@ -329,31 +333,31 @@
 
 							{#each output.criterion_calc_by_subj as crit_by_subj, j}
 								<td>
-									{(crit_by_subj.subjects[i].mean_norm_score * 10).toFixed(1)}% ± {(
+									{formatNumber(crit_by_subj.subjects[i].mean_norm_score * 10)}% ± {formatNumber(
 										crit_by_subj.subjects[i].deviation * 10
-									).toFixed(1)}</td
+									)}</td
 								>
 							{/each}
-							<td> {(output.total_by_subject[i].total * 10).toFixed(1)}%</td>
-							<td> {(output.total_by_subject[i].deviation * 10).toFixed(1)}</td>
+							<td> {formatNumber(output.total_by_subject[i].total * 10)}%</td>
+							<td> {formatNumber(output.total_by_subject[i].deviation * 10)}</td>
 						</tr>
 					{/each}
 					<tr>
 						<td></td><td></td>
 						{#each output.criteria_total as crit_total, i}
 							<td>
-								{(crit_total.score * 10).toFixed(1)}% ± {(crit_total.deviation * 10).toFixed(1)}</td
+								{formatNumber(crit_total.score * 10)}% ± {formatNumber(crit_total.deviation * 10)}</td
 							>
 						{/each}
-						<td><b>{(output.totals.score * 10).toFixed(1)}%</b></td>
-						<td><b>{(output.totals.deviation * 10).toFixed(1)}</b></td>
+						<td><b>{formatNumber(output.totals.score * 10)}%</b></td>
+						<td><b>{formatNumber(output.totals.deviation * 10)}</b></td>
 					</tr>
 					<tr>
 						<td></td><td></td>
 						{#each output.criteria_total as crit_total, i}
-							<td> {crit_total.weight.toFixed(2)}</td>
+							<td> {formatNumber(crit_total.weight, 2, 2)}</td>
 						{/each}
-						<td><b>{output.totals.criteria_wgt.toFixed(2)}</b></td>
+						<td><b>{formatNumber(output.totals.criteria_wgt, 2, 2)}</b></td>
 					</tr>
 				</table>
 			</details>
@@ -365,11 +369,11 @@
 				{#each output.min_max_crit_by_subj as out, j}
 					<p>
 						По дисциплине «{out.name}» наибольшее значение удовлетворённости студентов наблюдается
-						по критерию «{data.input.criteria[out.max_criterion_idx].name}»: {(
+						по критерию «{data.input.criteria[out.max_criterion_idx].name}»: {formatNumber(
 							out.max_score * 10
-						).toFixed(1)}%, а самое низкое значение — по критерию «{data.input.criteria[
+						)}%, а самое низкое значение — по критерию «{data.input.criteria[
 							out.min_criterion_idx
-						].name}»: {(out.min_score * 10).toFixed(1)}%.
+						].name}»: {formatNumber(out.min_score * 10)}%.
 					</p>
 				{/each}
 			</details>
