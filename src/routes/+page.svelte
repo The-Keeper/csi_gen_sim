@@ -272,7 +272,7 @@
 				<button on:click={saveData}>Сохранить данные</button>
 				<div>
 					<label for="datafile">Загрузить данные из файла:</label>
-					<input class="w-sm"
+					<input class="w-full sm:w-sm"
 						accept="text/json"
 						bind:files
 						id="datafile"
@@ -298,9 +298,10 @@
 		</div>
 		<details>
 			<summary>Заполнить названия критериев</summary>
+			<div class="flex flex-wrap justify-items-start gap-2">
+
 			<textarea class="block w-full h-40" bind:value={criteriaTextArea}></textarea>
 		
-			<div class="flex flex-wrap justify-items-start">
 				<WeightScoreBlock 
 				bind:weight_min = {all_wgt_min}
 				bind:weight_max = {all_wgt_max}
@@ -312,9 +313,9 @@
 			</div>
 		</details>
 	</div>
-    <details class="w-200 w-full md:w-200" open>
+    <details class="w-full md:w-200" open>
         <summary>Критерии</summary>
-        <div class="flex flex-wrap w-160 gap-2">
+        <div class="flex flex-wrap w-full sm:w-160 gap-2">
             {#each data.input.criteria as criterion, i}
                 <CriterionCard bind:criterion />
             {/each}
