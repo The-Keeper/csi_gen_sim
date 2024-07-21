@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CriterionCard from '../components/CriterionCard.svelte';
+	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
 
 	type GeneratedSubjectT = {
 		name: string;
@@ -293,23 +294,18 @@
 		</div>
 		<div>
 			<label class="block" for="subject_names">Названия предметов:</label>
-			<textarea class="block w-80 h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
+			<textarea class="block w-full h-40" id="subject_names" bind:value={subjectTextArea}></textarea>
 		</div>
 		<details>
 			<summary>Заполнить названия критериев</summary>
-			<textarea class="block w-80 h-40" bind:value={criteriaTextArea}></textarea>
-			<div class="flex items-center justify-end gap-1">
-				<label for="all_wgt_min">Вес от</label>
-				<input id="all_wgt_min" type="number" min="1" max="10" bind:value={all_wgt_min} />
-				<label for="all_wgt_max">до</label>
-				<input id="all_wgt_max" type="number" min="1" max="10" bind:value={all_wgt_max} />
-			</div>
-			<div class="flex items-center justify-end gap-1">
-				<label for="all_score_min">Балл от</label>
-				<input id="all_score_min" type="number" min="1" max="10" bind:value={all_score_min} />
-				<label for="all_score_max">до</label>
-				<input id="all_score_max" type="number" min="1" max="10" bind:value={all_score_max} />
-			</div>
+			<textarea class="block w-full h-40" bind:value={criteriaTextArea}></textarea>
+			<WeightScoreBlock 
+				bind:weight_min = {all_wgt_min}
+				bind:weight_max = {all_wgt_max}
+				bind:score_min = {all_score_min}
+				bind:score_max = {all_score_max}
+			></WeightScoreBlock>
+
 			<button on:click={fill_criteria_names}>Заполнить</button>
 		</details>
 	</div>

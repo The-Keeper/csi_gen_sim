@@ -1,4 +1,6 @@
 <script lang="ts">
+	import WeightScoreBlock from "./WeightScoreBlock.svelte";
+
     export let criterion = {
         name: "Критерий",
         weight_min: 5,
@@ -10,17 +12,11 @@
 <div class="block">
     <input bind:value={criterion.name} />
     
-    <div class="flex items-center justify-end gap-1">
-        <label class="block" for="weight_min">Вес от</label>
-        <input class="block" id="weight_min" type="number" min="1" max="10" bind:value={criterion.weight_min} />
-        <label class="block" for="weight_max">до</label>
-        <input class="block" id="weight_max" type="number" min="1" max="10" bind:value={criterion.weight_max} />
-    </div>
-    <div class="flex items-center justify-end gap-1">
-        <label for="score_min">Балл от</label>
-        <input id="score_min" type="number" min="1" max="10" bind:value={criterion.score_min} />
-        <label for="score_max">до</label>
-        <input id="score_max" type="number" min="1" max="10" bind:value={criterion.score_max} />
-    </div>
+    <WeightScoreBlock 
+        bind:weight_min = {criterion.weight_min}
+        bind:weight_max = {criterion.weight_max}
+        bind:score_min = {criterion.score_min}
+        bind:score_max = {criterion.score_max}
+    ></WeightScoreBlock>
     
 </div>
