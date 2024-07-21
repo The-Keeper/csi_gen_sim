@@ -264,12 +264,12 @@
 <div class="flex flex-wrap gap-2">
 	<div class="flex-col gap-2">
 		<div class="flex-col">
-			<div class="block m-2">
-				<button on:click={generate}>Генерировать</button>
-				<button on:click={calculate}>Вычислить</button>
+			<div class="flex flex-wrap m-2">
+				<button class="m-2" on:click={generate}>Генерировать</button>
+				<button class="m-2" on:click={calculate}>Вычислить</button>
 			</div>
-			<div class="block m-2">
-				<button on:click={saveData}>Сохранить данные</button>
+			<div class="flex flex-wrap m-2">
+				<button class="m-2" on:click={saveData}>Сохранить данные</button>
 				<div>
 					<label for="datafile">Загрузить данные из файла:</label>
 					<input class="w-full sm:w-sm"
