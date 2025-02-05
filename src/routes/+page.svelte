@@ -20,22 +20,21 @@
 
 	let subjectTextArea = [...Array(3).keys()].map((val) => `Предмет ${val + 1}`).join('\n');
 	let criteriaTextArea = [...Array(10).keys()].map((val) => `Критерий ${val + 1}`).join('\n');
-	let all_wgt_min = 5;
-	let all_wgt_max = 10;
-	let all_score_min = 8;
-	let all_score_max = 10;
+	// biome-ignore lint/style/useConst: svelte
+	// biome-ignore lint/style/useSingleVarDeclarator: shorten
+		let all_wgt_min = 5, all_wgt_max = 10, all_score_min = 8, all_score_max = 10;
 
 	let files: FileList;
 	let fileInput: any;
 	$: if (files) {
-		let reader = new FileReader();
+		const reader = new FileReader();
 
 		// Note that `files` is of type `FileList`, not an Array:
 		// https://developer.mozilla.org/en-US/docs/Web/API/FileList
 		for (const file of files) {
 			reader.readAsText(file);
 			reader.onload = (e) => {
-				let result = JSON.parse(String(e.target?.result) || '');
+				const result = JSON.parse(String(e.target?.result) || '');
 				subjectTextArea = result.input.subjects.join('\n');
 				criteriaTextArea = result.input.criteria.map((crit: any) => crit.name).join('\n');
 				data = result;
@@ -65,9 +64,10 @@
 	}
 
 	function generate(_obj: any) {
+		// biome-ignore lint/style/useConst: pushing later
 		let result = [] as { name: string; subjects: GeneratedSubjectT[] }[];
 		for (let respondent_idx = 0; respondent_idx < data.input.respondents_number; respondent_idx++) {
-			let form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as GeneratedSubjectT[] };
+			const form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as GeneratedSubjectT[] };
 			form.subjects = data.input.subjects.map((subj) => {
 				return {
 					name: subj,
@@ -87,7 +87,7 @@
 	function getSubjectNames(stringValue: string) {
 		return stringValue
 			.split('\n')
-			.filter((s) => s.trim() != '')
+			.filter((s) => s.trim() !== '')
 			.map((name) => name.trim());
 	}
 
@@ -100,7 +100,7 @@
 	}
 
 	function standardDeviation(numbers: number[]) {
-		let mean = sum(numbers) / numbers.length;
+		const mean = sum(numbers) / numbers.length;
 		let std_dev = 0;
 		if (numbers.length > 1) {
 			std_dev = Math.sqrt(numbers.reduce((acc, n) => (n - mean) ** 2) / (numbers.length - 1));
@@ -155,7 +155,7 @@
 			};
 		});
 		// console.log('total', total_by_respondents);
-		let criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
+		const criterion_calc_by_subj = data.input.criteria.map((crit, crit_idx) => {
 			return {
 				subjects: data.input.subjects.map((subject, subject_idx) => {
 					const mean_norm_score = avg(
@@ -219,8 +219,8 @@
 			const scores = crit_data_for_this_subj.map((c) => c.mean_norm_score);
 			const min_score = Math.min(...scores);
 			const max_score = Math.max(...scores);
-			const min_criterion_idx = scores.findIndex((score) => score == min_score);
-			const max_criterion_idx = scores.findIndex((score) => score == max_score);
+			const min_criterion_idx = scores.findIndex((score) => score === min_score);
+			const max_criterion_idx = scores.findIndex((score) => score === max_score);
 
 			return {
 				name: subj,
@@ -241,7 +241,7 @@
 	}
 
 	function fill_criteria_names() {
-		const criteria_names = criteriaTextArea.split('\n').filter((s) => s.trim() != '');
+		const criteria_names = criteriaTextArea.split('\n').filter((s) => s.trim() !== '');
 		data.input.criteria = criteria_names.map((crit, crit_idx) => {
 			return {
 				name: crit.trim(),
