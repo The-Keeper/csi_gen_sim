@@ -1,13 +1,13 @@
 <script lang="ts">
 	import WeightScoreBlock from "./WeightScoreBlock.svelte";
 
-    export let criterion = {
+    let { criterion = $bindable({
         name: "Критерий",
         weight_min: 5,
         weight_max: 10,
         score_min: 8,
         score_max: 10,
-    }
+    }) } = $props();
 </script>
 <div class="block">
     <input bind:value={criterion.name} />

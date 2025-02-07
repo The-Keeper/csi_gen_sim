@@ -326,6 +326,7 @@
 			<details open id="table_output">
 				<summary>Выходная таблица данных</summary>
 				<table>
+					<tbody>
 					{#each data.input.subjects as subject, i}
 						<tr>
 							<td>{i + 1}</td>
@@ -359,6 +360,7 @@
 						{/each}
 						<td><b>{formatNumber(output.totals.criteria_wgt, 2, 2)}</b></td>
 					</tr>
+					</tbody>
 				</table>
 			</details>
 		{/if}

@@ -1,10 +1,15 @@
 <script lang="ts">
   import '$lib/fylgja.css';
   import 'uno.css';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <main class="mx-auto">
-	<slot />
+	{@render children?.()}
 </main>
 
 <style>
