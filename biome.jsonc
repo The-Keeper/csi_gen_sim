@@ -1,0 +1,26 @@
+{
+    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "organizeImports": {
+      "enabled": false
+    },
+    "overrides": [
+        {
+          "include": ["*.svelte", "*.astro", "*.vue"],
+          "linter": {
+            "rules": {
+              "style": {
+                "useConst": "off",
+                "useImportType": "off"
+              }
+            }
+          }
+        }
+      ]  
+  }
+  

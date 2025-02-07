@@ -64,7 +64,6 @@
 	}
 
 	function generate(_obj: any) {
-		// biome-ignore lint/style/useConst: pushing later
 		let result = [] as { name: string; subjects: GeneratedSubjectT[] }[];
 		for (let respondent_idx = 0; respondent_idx < data.input.respondents_number; respondent_idx++) {
 			const form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as GeneratedSubjectT[] };

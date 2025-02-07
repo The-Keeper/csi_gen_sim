@@ -1,9 +1,9 @@
 <script lang="ts">
     interface Props {
-        weight_min?: number;
-        weight_max?: number;
-        score_min?: number;
-        score_max?: number;
+        weight_min: number;
+        weight_max: number;
+        score_min: number;
+        score_max: number;
     }
 
     let {
