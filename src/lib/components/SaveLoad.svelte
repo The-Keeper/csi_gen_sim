@@ -1,5 +1,6 @@
 <script lang="ts">
     import { layout, reports_input, data } from "$lib/store.svelte";
+    import { goto } from '$app/navigation';
 
 	let files =  $state<FileList>();
     let fileInput: HTMLInputElement;
@@ -17,6 +18,8 @@
                     layout.criteria = result.layout.criteria;
                     reports_input.splice(0, reports_input.length, ...result.reports_input)
                     data.reports = result.data.reports;
+
+                    goto('/output')
                 };
             }
         }
