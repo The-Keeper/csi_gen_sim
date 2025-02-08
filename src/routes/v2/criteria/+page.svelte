@@ -25,7 +25,7 @@
 	<button onclick={set_criteria}>Заполнить</button>
 </div>
 
-<a href="/v2/generate">Далее: вычисления</a>
+<a href="/v2/reports">Далее: отчёты</a>
 
 <details class="w-full md:w-200" open>
 	<summary>Критерии</summary>

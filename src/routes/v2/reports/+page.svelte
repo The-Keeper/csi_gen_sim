@@ -3,6 +3,9 @@
 	import TextAreaArray from "$lib/components/TextAreaArray.svelte";
 </script>
 
+<a href="/v2/generate">Далее: генерация</a>
+
+
 {#each reports_input as r_input, r_idx }
 	<div>
 		<div class="flex items-center justify-end gap-1">
