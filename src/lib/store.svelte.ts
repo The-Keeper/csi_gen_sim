@@ -6,9 +6,9 @@ export const layout = $state<{ criteria: CriterionT[] }>(
     }
 );
 
-export const reports_input = $state<ReportInputT[]>([]);
+export const data = $state<{ reports: ReportFormDataT[] }>({ reports: [] })
 
-export const reports = $state<ReportFormDataT[]>([])
+export const reports_input = $state<ReportInputT[]>([]);
 
 export function add_report() {
     reports_input.push({title: '', subjects: []})

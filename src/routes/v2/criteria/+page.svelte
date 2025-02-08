@@ -18,12 +18,14 @@
 </pre>
 
 <div>
-	<p>Заполните названия критериев</p>
+	<p>Заполнить названия критериев с помощью списка:</p>
 
 	<TextAreaArray bind:values={ criteria_names } />
 
 	<button onclick={set_criteria}>Заполнить</button>
 </div>
+
+<a href="/v2/generate">Далее: вычисления</a>
 
 <details class="w-full md:w-200" open>
 	<summary>Критерии</summary>

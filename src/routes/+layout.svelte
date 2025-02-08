@@ -8,7 +8,7 @@
 	let { children }: Props = $props();
 
 
-import { reports_input, layout } from '$lib/store.svelte';
+import { reports_input, layout, data } from '$lib/store.svelte';
 </script>
 
 <main class="mx-auto">
@@ -17,6 +17,7 @@ import { reports_input, layout } from '$lib/store.svelte';
 <pre>
 reports_input: { JSON.stringify(reports_input) }
 layout: { JSON.stringify(layout) }
+data: { JSON.stringify(data) }
 </pre>
 
 	{@render children?.()}
