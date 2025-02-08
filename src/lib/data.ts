@@ -6,6 +6,11 @@ export type FormSubjectT = {
     }[];
 };
 
+export type ReportInputT = {
+    title: string,
+    subjects: string[]
+}
+
 export type CriterionT = {
     name: string,
     score_min: number,

@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { add_report, reports_input } from "$lib/store.svelte";
+	import ReportInputBlock from "../../components/ReportInputBlock.svelte";
 </script>
 
 {#each reports_input as r_input }
 	<div>
-		<label for="r_title">Заголовок отчёта</label>
-		<input bind:value={ r_input.title } type="text" name="" id="r_title" />
-
-		<textarea name="" id=""></textarea>
+		<ReportInputBlock bind:title = {r_input.title} bind:subjects = { r_input.subjects } />
 	</div>
 {/each}
 
