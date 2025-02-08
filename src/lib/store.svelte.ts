@@ -1,6 +1,9 @@
 import type { CriterionT, ReportFormDataT, ReportInputT } from "./data";
 
-export const criteria = $state<CriterionT[]>([{ name: 'Критерий 1', score_min: 8, score_max: 10, weight_min: 8, weight_max: 10 }])
+let criteria = $state<CriterionT[]>([{ name: 'Критерий 1', score_min: 8, score_max: 10, weight_min: 8, weight_max: 10 }]);
+export function get_criteria() {
+    return criteria;
+}
 
 export const reports_input = $state<ReportInputT[]>([]);
 
@@ -12,4 +15,8 @@ export function add_report() {
 
 export function remove_report_at_idx(idx: number) {
     reports_input.splice(idx, 1);
+}
+
+export function set_criteria() {
+    criteria = [{ name: 'Критерий 2', score_min: 8, score_max: 10, weight_min: 8, weight_max: 10 }]
 }
