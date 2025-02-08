@@ -9,3 +9,7 @@ export const reports = $state<ReportFormDataT[]>([])
 export function add_report() {
     reports_input.push({title: '', subjects: []})
 }
+
+export function remove_report_at_idx(idx: number) {
+    reports_input.splice(idx, 1);
+}

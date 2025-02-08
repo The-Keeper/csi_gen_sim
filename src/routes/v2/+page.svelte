@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { add_report, reports_input, criteria } from "$lib/store.svelte";
-	import ReportInputBlock from "$lib/components/ReportInputBlock.svelte";
+	import { add_report, remove_report_at_idx, reports_input } from "$lib/store.svelte";
+	import TextAreaArray from "$lib/components/TextAreaArray.svelte";
 </script>
 
-{#each reports_input as r_input }
+{#each reports_input as r_input, r_idx }
 	<div>
-		<ReportInputBlock bind:title = {r_input.title} bind:subjects = { r_input.subjects } />
+		<div class="flex items-center justify-end gap-1">
+			<label class="block" for="weight_min">Название отчёта</label>
+			<input class="block" bind:value={r_input.title} />
+
+			<button onclick={() => remove_report_at_idx(r_idx)}>Удалить</button>
+		</div>
+		<TextAreaArray bind:values = {r_input.subjects} />	
 	</div>
 {/each}
 
 <button onclick={add_report}>Добавить отчёт</button>
-
-<pre>
-	reports_input: { JSON.stringify(reports_input) }
-	criteria: { JSON.stringify(criteria) }
-
-</pre>

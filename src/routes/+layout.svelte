@@ -6,9 +6,19 @@
 	}
 
 	let { children }: Props = $props();
+
+
+import { reports_input, criteria } from '$lib/store.svelte';
 </script>
 
 <main class="mx-auto">
+
+
+<pre>
+reports_input: { JSON.stringify(reports_input) }
+criteria: { JSON.stringify(criteria) }
+</pre>
+
 	{@render children?.()}
 </main>
 

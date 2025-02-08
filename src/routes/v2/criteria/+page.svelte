@@ -14,6 +14,8 @@
 
 
 <pre>
+	criteria_names: { JSON.stringify(criteria_names) }
+
 	criteria: { JSON.stringify(criteria) }
 
 </pre>
