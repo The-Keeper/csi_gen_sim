@@ -13,23 +13,19 @@
 
 </script>
 
-<pre>
-	criteria_names: { JSON.stringify(criteria_names) }
-</pre>
-
-<div>
-	<p>Заполнить названия критериев с помощью списка:</p>
-
+<details>
+	<summary>Заполнить названия критериев с помощью списка</summary>
 	<TextAreaArray bind:values={ criteria_names } />
 
 	<button onclick={set_criteria}>Заполнить</button>
-</div>
+
+</details>
 
 <details class="w-full md:w-200" open>
 	<summary>Критерии</summary>
 	<div class="flex flex-wrap w-full sm:w-160 gap-2">
 		{#each layout.criteria as criterion, i}
-			<CriterionCard bind:criterion />
+			<CriterionCard index={i+1} bind:criterion />
 		{/each}
 	</div>
 </details>
