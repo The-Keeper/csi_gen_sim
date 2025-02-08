@@ -9,6 +9,9 @@
 			<label class="block" for="weight_min">Название отчёта</label>
 			<input class="block" bind:value={r_input.title} />
 
+
+			<input type="number" min="1" max="1000" bind:value={r_input.respondents_number} />
+
 			<button onclick={() => remove_report_at_idx(r_idx)}>Удалить</button>
 		</div>
 		<TextAreaArray bind:values = {r_input.subjects} />	
