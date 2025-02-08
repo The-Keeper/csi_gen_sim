@@ -16,14 +16,6 @@ const output_data = $derived(output())
 
 <main class="mx-auto">
 
-
-<pre>
-reports_input: { JSON.stringify(reports_input) }
-layout: { JSON.stringify(layout) }
-data: { JSON.stringify(data) }
-per_report:  { JSON.stringify(output_data) }
-</pre>
-
 	<div id="links" class="flex flex-wrap gap-10 justify-around">
 		<a href="/criteria">Макет</a>
 		<a href="/reports">Отчёты</a>
@@ -34,6 +26,16 @@ per_report:  { JSON.stringify(output_data) }
 	<SaveLoad />
 
 	{@render children?.()}
+
+<details>
+	<summary>Данные для отладки</summary>
+<pre>
+reports_input: { JSON.stringify(reports_input) }
+layout: { JSON.stringify(layout) }
+data: { JSON.stringify(data) }
+per_report:  { JSON.stringify(output_data) }
+</pre>
+</details>
 
 	<footer class="text-center">Лицензия MIT (никаких гарантий)</footer>
 </main>

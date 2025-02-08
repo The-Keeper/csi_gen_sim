@@ -69,7 +69,7 @@ function formatNumber(number: number, digits = 1, minimumFractionDigits = 1) {
 	</div>
 {/each}
 
-<details>
+<details open>
 	<summary>Общие показатели по всем отчётам</summary>
 	<table>
 		<tbody>

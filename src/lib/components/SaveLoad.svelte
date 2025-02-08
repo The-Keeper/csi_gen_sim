@@ -46,14 +46,18 @@
 
 </script>
 
-<div>
-    <label for="datafile">Загрузить данные из файла:</label>
-    <input class="w-full sm:w-sm"
-        accept="text/json"
-        bind:files
-        id="datafile"
-        name="datafile"
-        type="file"
-        bind:this={fileInput}
-    />
+
+<div class="flex flex-wrap m-2">
+    <button class="m-2" onclick={saveData}>Сохранить данные</button>
+    <div>
+        <label for="datafile">Загрузить данные из файла:</label>
+        <input class="w-full sm:w-sm"
+            accept="text/json"
+            bind:files
+            id="datafile"
+            name="datafile"
+            type="file"
+            bind:this={fileInput}
+        />
+    </div>
 </div>
