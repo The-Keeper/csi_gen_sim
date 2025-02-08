@@ -1,35 +1,52 @@
 <script lang="ts">
-	import { layout } from "$lib/store.svelte";
-	import TextAreaArray from "$lib/components/TextAreaArray.svelte";
-	import CriterionCard from "$lib/components/CriterionCard.svelte";
+import type { FormSubjectT, ReportFormDataT } from "$lib/data";
+import { data, reports_input, layout } from "$lib/store.svelte";
+import { randomIntFromInterval } from "$lib/math";
 
-	let criteria_names = ['Критерий 1'];
-	
-	function set_criteria() {
-		layout.criteria = criteria_names.map( name => {
-			 return { name, score_min: 8, score_max: 10, weight_min: 8, weight_max: 10 }
-		})
+function generate() {
+	let result = [] as ReportFormDataT[];
+	for (let report_idx = 0; report_idx < reports_input.length; report_idx++) {
+		const report_input = reports_input[report_idx];
+
+		let report = { forms: [] } as ReportFormDataT;
+
+		for (
+			let respondent_idx = 0;
+			respondent_idx < report_input.respondents_number;
+			respondent_idx++
+		) {
+			const form = {
+				respondent_name: `Респондент ${respondent_idx + 1}`,
+				subjects: [] as FormSubjectT[],
+			};
+			form.subjects = report_input.subjects.map((subj) => {
+				return {
+					name: subj,
+					criteria: layout.criteria.map((criterion) => {
+						return {
+							weight: randomIntFromInterval(
+								criterion.weight_min,
+								criterion.weight_max,
+							),
+							score: randomIntFromInterval(
+								criterion.score_min,
+								criterion.score_max,
+							),
+						};
+					}),
+				};
+			});
+			report.forms.push(form);
+		}
+
+		result.push(report);
 	}
 
+	data.reports = result;
+}
 </script>
 
-<pre>
-	criteria_names: { JSON.stringify(criteria_names) }
-</pre>
 
 <div>
-	<p>Заполнить названия критериев с помощью списка:</p>
-
-	<TextAreaArray bind:values={ criteria_names } />
-
-	<button onclick={set_criteria}>Заполнить</button>
+	<button onclick={generate}>Генерировать</button>
 </div>
-
-<details class="w-full md:w-200" open>
-	<summary>Критерии</summary>
-	<div class="flex flex-wrap w-full sm:w-160 gap-2">
-		{#each layout.criteria as criterion, i}
-			<CriterionCard bind:criterion />
-		{/each}
-	</div>
-</details>

@@ -8,7 +8,8 @@ export type FormSubjectT = {
 
 export type ReportInputT = {
     title: string,
-    subjects: string[]
+    subjects: string[],
+    respondents_number: number,
 }
 
 export type CriterionT = {
@@ -19,14 +20,9 @@ export type CriterionT = {
     weight_max: number,
 };
 
-export type InputReportT = {
-    subjects: string[],
-    respondents_number: number,
-}
-
 export type ReportFormDataT = {
     forms: {
         respondent_name: string,
-        subjects: FormSubjectT
+        subjects: FormSubjectT[]
     }[]
 }

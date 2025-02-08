@@ -15,4 +15,6 @@
 	</div>
 {/each}
 
-<button onclick={add_report}>Добавить отчёт</button>
+<div>
+	<button onclick={add_report}>Добавить отчёт</button>
+</div>
