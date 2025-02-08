@@ -1,13 +1,11 @@
 <script lang="ts">
 let { title =  $bindable(''), subjects = $bindable([] as string[]) } = $props();
 
-let subjectTextArea = $state("");
-
-function setSubjectNames() {
-	subjects = subjectTextArea
+function setSubjectNames(val: string) {
+	subjects = val
 		.split("\n")
 		.filter((s) => s.trim() !== "")
-		.map((name) => name.trim());
+		.map((name) => name);
 }
 
 export function getSubjects() {
@@ -19,6 +17,9 @@ export function getSubjects() {
         <label class="block" for="weight_min">Название отчёта</label>
         <input class="block" bind:value={title} />
     </div>
-    <textarea class="block w-full h-40" id="subject_names" onchange={setSubjectNames} bind:value={subjectTextArea}></textarea>
+    <textarea class="block w-full h-40" id="subject_names" bind:value={
+        () => subjects.join('\n') + ('\n'),
+        setSubjectNames
+    }></textarea>
 
 </div>
