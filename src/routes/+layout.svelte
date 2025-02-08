@@ -20,6 +20,12 @@ layout: { JSON.stringify(layout) }
 data: { JSON.stringify(data) }
 </pre>
 
+	<div id="links" class="flex flex-wrap gap-10">
+		<a href="/criteria">Макет</a>
+		<a href="/reports">Отчёты</a>
+		<a href="/generate">Генерация</a>
+	</div>
+
 	{@render children?.()}
 </main>
 
