@@ -12,10 +12,8 @@
 	<TextAreaArray bind:values={ criteria_names } />
 </div>
 
-<button onclick={add_report}>Заполнить названия критериев</button>
 
 <pre>
-	reports_input: { JSON.stringify(reports_input) }
 	criteria: { JSON.stringify(criteria) }
 
 </pre>
