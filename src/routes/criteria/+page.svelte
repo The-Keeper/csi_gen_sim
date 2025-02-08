@@ -21,9 +21,9 @@
 
 </details>
 
-<details class="w-full md:w-200" open>
+<details class="w-full md:w-200 lg:w-300" open>
 	<summary>Критерии</summary>
-	<div class="flex flex-wrap w-full sm:w-160 gap-2">
+	<div class="flex flex-wrap w-full gap-3">
 		{#each layout.criteria as criterion, i}
 			<CriterionCard index={i+1} bind:criterion />
 		{/each}

@@ -16,7 +16,7 @@ const output_data = $derived(output())
 
 <main class="mx-auto">
 
-	<div id="links" class="flex flex-wrap gap-10 justify-around">
+	<div id="links" class="flex flex-wrap gap-10 m-block-4 justify-around">
 		<a href="/criteria">Макет</a>
 		<a href="/reports">Отчёты</a>
 		<a href="/data">Данные</a>
