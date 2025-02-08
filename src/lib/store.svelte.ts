@@ -132,7 +132,28 @@ const per_report_output = $derived(
 ))
 
 const total_output = $derived.by(() => {
-	return {}
+	const avg_total_by_crit = layout.criteria.map((crit, crit_idx) => {
+		const weight = avg(per_report_output.map( report => {
+			return report.criteria_total[crit_idx].weight
+		}))
+		const score = avg(per_report_output.map( report => {
+			return report.criteria_total[crit_idx].score
+		}))
+		const deviation = avg(per_report_output.map( report => {
+			return report.criteria_total[crit_idx].deviation
+		}))
+		return { weight, score, deviation }
+	})
+	const score = avg(per_report_output.map( report => {
+		return report.totals.score
+	}))
+	const deviation = avg(per_report_output.map( report => {
+		return report.totals.deviation
+	}))
+	const avg_criteria_wgt = avg(per_report_output.map( report => {
+		return report.totals.criteria_wgt
+	}))
+	return { avg_total_by_crit, avg_criteria_wgt, totals: { score, deviation } }
 }) 
 
 export function remove_report_at_idx(idx: number) {
