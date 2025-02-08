@@ -15,6 +15,10 @@ export function add_report() {
     reports_input.push({title: '', subjects: [], respondents_number: 1})
 }
 
+export function output() {
+    return { per_report_output }
+}
+
 const per_report_output = $derived( 
     data.reports.map( (report, report_idx) => {
 		const subject_calc_by_respondents = report.forms.map((form) => {
