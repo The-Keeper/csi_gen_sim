@@ -10,18 +10,19 @@
 
 import { reports_input, layout, data, output } from '$lib/store.svelte';
 import SaveLoad from '$lib/components/SaveLoad.svelte';
-	import NavLink from '$lib/components/NavLink.svelte';
+import NavLink from '$lib/components/NavLink.svelte';
+import { base } from '$app/paths';
 
 const output_data = $derived(output())
 </script>
 
 <main class="mx-auto">
-
+	
 	<div id="links" class="flex flex-wrap gap-10 m-block-4 justify-around">
-		<NavLink link="/criteria">Макет</NavLink>
-		<NavLink link="/reports">Отчёты</NavLink>
-		<NavLink link="/data">Данные</NavLink>
-		<NavLink link="/output">Вывод</NavLink>
+		<NavLink link={`${base}/criteria`}>Макет</NavLink>
+		<NavLink link={`${base}/reports`}>Отчёты</NavLink>
+		<NavLink link={`${base}/data`}>Данные</NavLink>
+		<NavLink link={`${base}/output`}>Вывод</NavLink>
 	</div>
 
 	<SaveLoad />
