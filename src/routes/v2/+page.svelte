@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { add_report, reports_input, criteria } from "$lib/store.svelte";
-	import ReportInputBlock from "../../components/ReportInputBlock.svelte";
+	import ReportInputBlock from "$lib/components/ReportInputBlock.svelte";
 </script>
 
 {#each reports_input as r_input }

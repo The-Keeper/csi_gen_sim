@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { CriterionT, FormSubjectT } from '$lib/data';
-	import CriterionCard from '../components/CriterionCard.svelte';
-	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
+	import CriterionCard from '$lib/components/CriterionCard.svelte';
+	import WeightScoreBlock from '$lib/components/WeightScoreBlock.svelte';
 	import { sum, avg, standardDeviation } from '$lib/math'
 
 	let subjectTextArea = [...Array(3).keys()].map((val) => `Предмет ${val + 1}`).join('\n');
