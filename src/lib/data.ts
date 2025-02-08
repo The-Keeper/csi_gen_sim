@@ -1,4 +1,4 @@
-export type GeneratedSubjectT = {
+export type FormSubjectT = {
     name: string;
     criteria: {
         weight: number;

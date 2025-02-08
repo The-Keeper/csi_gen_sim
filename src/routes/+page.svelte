@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CriterionT, GeneratedSubjectT } from '$lib/data';
+	import type { CriterionT, FormSubjectT } from '$lib/data';
 	import CriterionCard from '../components/CriterionCard.svelte';
 	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
 
@@ -37,7 +37,7 @@
 		},
 		generated: [] as {
 			name: string;
-			subjects: GeneratedSubjectT[];
+			subjects: FormSubjectT[];
 		}[]
 	};
 	$: if (subjectTextArea.length > 0) {
@@ -50,9 +50,9 @@
 	}
 
 	function generate(_obj: any) {
-		let result = [] as { name: string; subjects: GeneratedSubjectT[] }[];
+		let result = [] as { name: string; subjects: FormSubjectT[] }[];
 		for (let respondent_idx = 0; respondent_idx < data.input.respondents_number; respondent_idx++) {
-			const form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as GeneratedSubjectT[] };
+			const form = { name: `Респондент ${respondent_idx + 1}`, subjects: [] as FormSubjectT[] };
 			form.subjects = data.input.subjects.map((subj) => {
 				return {
 					name: subj,
