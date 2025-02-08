@@ -1,22 +1,8 @@
 <script lang="ts">
+	import type { CriterionT, GeneratedSubjectT } from '$lib/data';
 	import CriterionCard from '../components/CriterionCard.svelte';
 	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
 
-	type GeneratedSubjectT = {
-		name: string;
-		criteria: {
-			weight: number;
-			score: number;
-		}[];
-	};
-
-	type CriterionT = {
-		name: string,
-		score_min: number,
-		score_max: number,
-		weight_min: number,
-		weight_max: number,
-	};
 
 	let subjectTextArea = [...Array(3).keys()].map((val) => `Предмет ${val + 1}`).join('\n');
 	let criteriaTextArea = [...Array(10).keys()].map((val) => `Критерий ${val + 1}`).join('\n');
