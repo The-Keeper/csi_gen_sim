@@ -7,7 +7,9 @@ export default defineConfig({
     extractorSvelte(),
   ],
   shortcuts: [
-    { logo: 'i-logos:svelte-icon w-6em h-6em transform transition-800 hover:rotate-180' },
+    {
+      btn: 'font-bold py-2 px-4 rounded',
+    },
   ],
   presets: [
     presetUno(),

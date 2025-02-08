@@ -52,7 +52,7 @@
 
 
 <div class="flex flex-wrap m-2">
-    <button class="m-2" onclick={saveData}>Сохранить данные</button>
+    <button class="btn" onclick={saveData}>Сохранить данные</button>
     <div>
         <label for="datafile">Загрузить данные из файла:</label>
         <input class="w-full sm:w-sm"
