@@ -1,5 +1,4 @@
 <script lang="ts">
-  import '$lib/fylgja.css';
   import 'virtual:uno.css';
   interface Props {
 		children?: import('svelte').Snippet;
