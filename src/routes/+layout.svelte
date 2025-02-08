@@ -31,6 +31,8 @@ per_report:  { JSON.stringify(output_data) }
 	</div>
 
 	{@render children?.()}
+
+	<footer class="text-center">Лицензия MIT (никаких гарантий)</footer>
 </main>
 
 <style>
