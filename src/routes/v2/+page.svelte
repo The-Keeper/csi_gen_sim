@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { add_report, reports_input } from "$lib/store.svelte";
+	import { add_report, reports_input, criteria } from "$lib/store.svelte";
 	import ReportInputBlock from "../../components/ReportInputBlock.svelte";
 </script>
 
@@ -12,5 +12,7 @@
 <button onclick={add_report}>Добавить отчёт</button>
 
 <pre>
-	{ JSON.stringify(reports_input) }
+	reports_input: { JSON.stringify(reports_input) }
+	criteria: { JSON.stringify(criteria) }
+
 </pre>

@@ -2,7 +2,7 @@
 	import type { CriterionT, FormSubjectT } from '$lib/data';
 	import CriterionCard from '../components/CriterionCard.svelte';
 	import WeightScoreBlock from '../components/WeightScoreBlock.svelte';
-
+	import { sum, avg, standardDeviation } from '$lib/math'
 
 	let subjectTextArea = [...Array(3).keys()].map((val) => `Предмет ${val + 1}`).join('\n');
 	let criteriaTextArea = [...Array(10).keys()].map((val) => `Критерий ${val + 1}`).join('\n');
@@ -74,23 +74,6 @@
 			.split('\n')
 			.filter((s) => s.trim() !== '')
 			.map((name) => name.trim());
-	}
-
-	function sum(array: number[]) {
-		return array.reduce((partial_sum, a) => partial_sum + a, 0);
-	}
-
-	function avg(array: number[]) {
-		return sum(array) / array.length;
-	}
-
-	function standardDeviation(numbers: number[]) {
-		const mean = sum(numbers) / numbers.length;
-		let std_dev = 0;
-		if (numbers.length > 1) {
-			std_dev = Math.sqrt(numbers.reduce((acc, n) => (n - mean) ** 2) / (numbers.length - 1));
-		}
-		return std_dev;
 	}
 
 	function saveTemplateAsFile(filename: string, dataObjToWrite: object) {
@@ -171,14 +154,14 @@
 		// console.log('total_by_subject', total_by_subject);
 		const criteria_total = data.input.criteria.map((crit, crit_idx) => {
 			const weight =
-				sum(
+				avg(
 					data.generated.map((form) => {
 						return (
 							sum(form.subjects.map((subj) => subj.criteria[crit_idx].weight)) /
 							form.subjects.length
 						);
 					})
-				) / data.generated.length;
+				)
 
 			const score = avg(
 				criterion_calc_by_subj[crit_idx].subjects.map((subj_calc) => subj_calc.mean_norm_score)
