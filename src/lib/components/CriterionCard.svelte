@@ -12,7 +12,7 @@
 <div class="block">
     <div class="flex justify-center items-center gap-2">
         <label for="name">{index}</label>
-        <input name="name" bind:value={criterion.name} />
+        <input id="name" bind:value={criterion.name} />
     </div>
     <WeightScoreBlock 
         bind:weight_min = {criterion.weight_min}

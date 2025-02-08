@@ -12,7 +12,9 @@ export default defineConfig({
     },
   ],
   presets: [
-    presetUno(),
+    presetUno({
+      dark: 'class'
+    }),
     presetIcons({
       collections: {
         custom: {
