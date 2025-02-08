@@ -20,7 +20,6 @@ export type InputReportT = {
 }
 
 export type ReportFormDataT = {
-    report_name: string,
     forms: {
         respondent_name: string,
         subjects: FormSubjectT
