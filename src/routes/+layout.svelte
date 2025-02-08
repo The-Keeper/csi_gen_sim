@@ -9,6 +9,7 @@
 
 
 import { reports_input, layout, data, output } from '$lib/store.svelte';
+import SaveLoad from '$lib/components/SaveLoad.svelte';
 
 const output_data = $derived(output())
 </script>
@@ -29,6 +30,8 @@ per_report:  { JSON.stringify(output_data) }
 		<a href="/generate">Генерация</a>
 		<a href="/output">Вывод</a>
 	</div>
+
+	<SaveLoad />
 
 	{@render children?.()}
 

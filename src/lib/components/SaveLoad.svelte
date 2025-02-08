@@ -2,6 +2,7 @@
     import { layout, reports_input, data } from "$lib/store.svelte";
 
 	let files =  $state<FileList>();
+    let fileInput: HTMLInputElement;
 
 	$effect(() => {
         if (files) {
@@ -44,3 +45,15 @@
 	}
 
 </script>
+
+<div>
+    <label for="datafile">Загрузить данные из файла:</label>
+    <input class="w-full sm:w-sm"
+        accept="text/json"
+        bind:files
+        id="datafile"
+        name="datafile"
+        type="file"
+        bind:this={fileInput}
+    />
+</div>
