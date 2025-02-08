@@ -16,7 +16,7 @@ export function add_report() {
 }
 
 export function output() {
-    return { per_report_output }
+    return { per_report_output, total_output }
 }
 
 const per_report_output = $derived( 
@@ -130,6 +130,10 @@ const per_report_output = $derived(
 		};
 	}
 ))
+
+const total_output = $derived.by(() => {
+	return {}
+}) 
 
 export function remove_report_at_idx(idx: number) {
     reports_input.splice(idx, 1);

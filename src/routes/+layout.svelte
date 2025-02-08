@@ -8,7 +8,9 @@
 	let { children }: Props = $props();
 
 
-import { reports_input, layout, data } from '$lib/store.svelte';
+import { reports_input, layout, data, output } from '$lib/store.svelte';
+
+const output_data = $derived(output())
 </script>
 
 <main class="mx-auto">
@@ -18,6 +20,7 @@ import { reports_input, layout, data } from '$lib/store.svelte';
 reports_input: { JSON.stringify(reports_input) }
 layout: { JSON.stringify(layout) }
 data: { JSON.stringify(data) }
+per_report:  { JSON.stringify(output_data) }
 </pre>
 
 	<div id="links" class="flex flex-wrap gap-10 justify-around">
