@@ -1,6 +1,7 @@
 <script lang="ts">
     import { layout, reports_input, data } from "$lib/store.svelte";
     import { goto } from '$app/navigation';
+    import { base } from '$app/paths';
 
 	let files =  $state<FileList>();
     let fileInput: HTMLInputElement;
@@ -19,7 +20,7 @@
                     reports_input.splice(0, reports_input.length, ...result.reports_input)
                     data.reports = result.data.reports;
 
-                    goto('/output')
+                    goto(`${base}/output`)
                 };
             }
         }
