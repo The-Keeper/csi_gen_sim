@@ -1,22 +1,25 @@
 <script lang="ts">
-    import { localStore } from '$lib/localStore.svelte';
-    const theme = localStore('darkTheme', 'dark');
-    let checked = $state(theme.value === 'dark');
+    import { browser } from '$app/environment';
 
-    $effect(() => {
-        const element = document.getElementsByTagName("html")[0];
+    // import { localStore } from '$lib/localStore.svelte';
+    // const theme = localStore('darkTheme', 'dark');
 
-        if (checked) {
-            element.classList.add("dark");
-            theme.value = 'dark';
-        } else {
-            element.classList.remove("dark");
-            theme.value = 'light'
-        }
-    })
+    function set_theme(theme: string) {
+        const one_year = 60 * 60 * 24 * 365;
+        document.cookie = `theme=${theme}; max-age=${one_year}; path=/`;
+        document.documentElement.setAttribute("data-theme", theme);
+    }
+
+    const root = browser ? document.getElementById('htmlroot') : { dataset: {theme: 'dark'} };
+    let checked = $state(root?.dataset?.theme === 'dark');
+
+    function changeTheme() {
+        set_theme( checked ? 'dark' : 'light' )
+    }
 </script>
-
-<div>
-    <label for="theme">Тёмная</label>
-    <input type="checkbox" bind:checked name="theme" id="theme" />    
-</div>
+{#if browser}
+    <div class="flex">   
+        <label for="theme">Тёмная тема:</label>
+        <input type="checkbox" onchange={changeTheme} bind:checked name="theme" id="theme" />    
+    </div>
+{/if}

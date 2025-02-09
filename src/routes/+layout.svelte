@@ -17,6 +17,7 @@ import DarkModeToggle from '$lib/components/DarkModeToggle.svelte';
 const output_data = $derived(output())
 </script>
 
+<DarkModeToggle />
 
 <main class="mx-auto main">
 	
