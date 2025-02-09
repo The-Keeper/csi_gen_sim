@@ -10,7 +10,9 @@ export const handle = async({event, resolve}) => {
         // Make sure the cookie was found, if not, set it to dark
         if(!currentTheme) {
           currentTheme = "dark";
-          event.cookies.set("theme", currentTheme, { path: base })
+          const one_year = 60 * 60 * 24 * 365;
+
+          event.cookies.set("theme", currentTheme, { path: '/', maxAge: one_year })
         }
   
         return html.replace(`data-theme=""`, `data-theme="${currentTheme}"`);
