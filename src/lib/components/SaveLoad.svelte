@@ -53,9 +53,9 @@
 
 <div class="flex flex-wrap m-2">
     <button class="btn" onclick={saveData}>Сохранить данные</button>
-    <div>
-        <label for="datafile">Загрузить данные из файла:</label>
-        <input class="w-full sm:w-sm"
+
+    <label class="btn b-black text-sm bg-white dark:bg-blue">
+        <input
             accept="text/json"
             bind:files
             id="datafile"
@@ -63,5 +63,12 @@
             type="file"
             bind:this={fileInput}
         />
-    </div>
+        Загрузить из файла
+    </label>
 </div>
+
+<style>
+    input[type="file"] {
+        display: none;
+    }
+</style>

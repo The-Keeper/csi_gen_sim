@@ -17,7 +17,7 @@
 	<summary>Заполнить названия критериев с помощью списка</summary>
 	<TextAreaArray bind:values={ criteria_names } />
 
-	<button onclick={set_criteria}>Заполнить</button>
+	<button class='btn' onclick={set_criteria}>Заполнить</button>
 
 </details>
 

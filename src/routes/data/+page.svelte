@@ -48,5 +48,5 @@ function generate() {
 
 
 <div>
-	<button onclick={generate}>Генерировать</button>
+	<button class='btn' onclick={generate}>Генерировать</button>
 </div>

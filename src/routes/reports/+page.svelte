@@ -22,10 +22,10 @@
 
 			</div>
 			<TextAreaArray bind:values = {r_input.subjects} />	
-			<button onclick={() => remove_report_at_idx(r_idx)}>Удалить отчет</button>
+			<button class='btn' onclick={() => remove_report_at_idx(r_idx)}>Удалить отчет</button>
 
 		</div>
 	{/each}
 
-	<button onclick={add_report}>Добавить отчёт</button>
+	<button class='btn' onclick={add_report}>Добавить отчёт</button>
 </div>
