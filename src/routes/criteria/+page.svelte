@@ -15,9 +15,12 @@
 
 <details>
 	<summary>Заполнить названия критериев с помощью списка</summary>
-	<TextAreaArray bind:values={ criteria_names } />
+	<div class="flex justify-items-start gap-2">
+		<TextAreaArray bind:values={ criteria_names } />
 
-	<button class='btn' onclick={set_criteria}>Заполнить</button>
+		<button class='btn h-12' onclick={set_criteria}>Заполнить</button>
+	
+	</div>
 
 </details>
 
