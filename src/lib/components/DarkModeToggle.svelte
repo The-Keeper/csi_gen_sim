@@ -12,14 +12,15 @@
 
     const root = browser ? document.getElementById('htmlroot') : { dataset: {theme: 'dark'} };
     let checked = $state(root?.dataset?.theme === 'dark');
+    const themeIcon = $derived(checked ? '🌙' : '☀️');
 
     function changeTheme() {
         set_theme( checked ? 'dark' : 'light' )
     }
 </script>
 {#if browser}
-    <div class="flex">   
-        <label for="theme">Тёмная тема:</label>
-        <input type="checkbox" onchange={changeTheme} bind:checked name="theme" id="theme" />    
+    <div class="fixed z-90 bottom-10 right-8 bg-blue-600 w-15 h-15 rounded-full drop-shadow-lg flex justify-center items-center text-white text-2xl hover:bg-blue-700 hover:drop-shadow-2xl cursor-pointer"> 
+        <label for="theme">{themeIcon}</label>  
+        <input class="hidden" type="checkbox" onchange={changeTheme} bind:checked name="theme" id="theme" />    
     </div>
 {/if}
