@@ -1,3 +1,5 @@
+import { base } from '$app/paths';
+
 export const handle = async({event, resolve}) => {
     const response = await resolve(event, {
       transformPageChunk: ({html}) => {
@@ -8,7 +10,7 @@ export const handle = async({event, resolve}) => {
         // Make sure the cookie was found, if not, set it to dark
         if(!currentTheme) {
           currentTheme = "dark";
-          event.cookies.set("theme", currentTheme, { path: '/' })
+          event.cookies.set("theme", currentTheme, { path: base })
         }
   
         return html.replace(`data-theme=""`, `data-theme="${currentTheme}"`);
