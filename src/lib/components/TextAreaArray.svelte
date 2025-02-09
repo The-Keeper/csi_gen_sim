@@ -9,7 +9,7 @@
     }
     
 </script>
-<textarea bind:value={
+<textarea class="main h-40 w-sm" bind:value={
     () => values.join('\n') + ('\n'),
     setValues
 }></textarea>
