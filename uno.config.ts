@@ -14,7 +14,10 @@ export default defineConfig({
   ],
   presets: [
     presetUno({
-      dark: 'class'
+      dark: {
+        dark: '[data-theme="dark"]',
+        light: '[data-theme="light"]',
+      }
     }),
     presetIcons({
       collections: {
