@@ -4,7 +4,7 @@ import { page } from '$app/state';
 let { link, children } = $props();
 const url = $derived(page.url.pathname); 
 
-$inspect(url);
+// $inspect(url);
 
 </script>
 <a class={[url === link && 'text-blue font-bold']} href={link}>

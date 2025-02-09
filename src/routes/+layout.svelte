@@ -20,8 +20,6 @@ const output_data = $derived(output())
 
 <main class="mx-auto main">
 	
-	<DarkModeToggle></DarkModeToggle>
-
 	<div id="links" class="flex flex-wrap gap-10 m-block-4 justify-around">
 		<NavLink link={`${base}/criteria`}>Макет</NavLink>
 		<NavLink link={`${base}/reports`}>Отчёты</NavLink>
