@@ -9,6 +9,7 @@ export default defineConfig({
   shortcuts: [
     {
       btn: 'font-bold py-2 px-4 rounded',
+      main: 'text-gray-8 bg-gray-2 dark:text-gray-2 dark:bg-gray-8',
     },
   ],
   presets: [

@@ -1,5 +1,6 @@
 <script lang="ts">
   import 'virtual:uno.css';
+
   interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -11,12 +12,16 @@ import { reports_input, layout, data, output } from '$lib/store.svelte';
 import SaveLoad from '$lib/components/SaveLoad.svelte';
 import NavLink from '$lib/components/NavLink.svelte';
 import { base } from '$app/paths';
+import DarkModeToggle from '$lib/components/DarkModeToggle.svelte';
 
 const output_data = $derived(output())
 </script>
 
-<main class="mx-auto">
+
+<main class="mx-auto main">
 	
+	<DarkModeToggle></DarkModeToggle>
+
 	<div id="links" class="flex flex-wrap gap-10 m-block-4 justify-around">
 		<NavLink link={`${base}/criteria`}>Макет</NavLink>
 		<NavLink link={`${base}/reports`}>Отчёты</NavLink>
