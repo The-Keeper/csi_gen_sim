@@ -26,3 +26,13 @@ export type ReportFormDataT = {
         subjects: FormSubjectT[]
     }[]
 }
+
+export type XLSCell = {
+    row: number,
+    column: string
+}
+
+export type CellRange = {
+    top_left: XLSCell,
+    bottom_right: XLSCell
+}
