@@ -70,33 +70,33 @@ let selected_form_idx = $state(0);
 {#if data?.reports[selected_report_idx]?.forms[selected_form_idx]}
 	<div class="w-full overflow-x-auto whitespace-nowrap py-4">
 		{#each data.reports[selected_report_idx].forms[selected_form_idx].subjects as subject_data, i}
-			<div class="inline-flex space-x-4">
-				<div class="inline-flex flex-col w-64 justify-between border rounded-lg overflow-hidden">
-					<h4 class="whitespace-normal">{subject_data.name}</h4>
-					<div class="flex-1 overflow-y-auto">
-						{#each subject_data.criteria as criterion, j}
-							<div class="flex items-center justify-end gap-1">
-								<label class="block" for="weight_min">Вес</label>
-								<input
-									class="block max-w-20 main"
-									id="weight"
-									type="number"
-									min="1"
-									max="10"
-									bind:value={criterion.weight}
-								/>
-								<label class="block" for="weight_max">Балл</label>
-								<input
-									class="block max-w-20 main"
-									id="score"
-									type="number"
-									min="1"
-									max="10"
-									bind:value={criterion.score}
-								/>
-							</div>
-						{/each}
-					</div>
+			<div
+				class="inline-flex content-center items-center flex-col w-64 h-75 justify-between border rounded-lg overflow-hidden"
+			>
+				<p class="whitespace-normal">{subject_data.name}</p>
+				<div class="overflow-y-auto">
+					{#each subject_data.criteria as criterion, j}
+						<div class="flex items-center justify-end gap-1">
+							<label class="block" for="weight_min">Вес</label>
+							<input
+								class="block max-w-20 main"
+								id="weight"
+								type="number"
+								min="1"
+								max="10"
+								bind:value={criterion.weight}
+							/>
+							<label class="block" for="weight_max">Балл</label>
+							<input
+								class="block max-w-20 main"
+								id="score"
+								type="number"
+								min="1"
+								max="10"
+								bind:value={criterion.score}
+							/>
+						</div>
+					{/each}
 				</div>
 			</div>
 		{/each}
