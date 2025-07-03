@@ -1,4 +1,4 @@
-import type { CriterionT, ReportFormDataT, ReportInputT } from "./data";
+import type { CellRange, CriterionT, ReportFormDataT, ReportInputT, XLSCell } from "./data";
 import { avg, sum, standardDeviation } from "./math";
 
 export const layout = $state<{ criteria: CriterionT[] }>(
@@ -10,6 +10,9 @@ export const layout = $state<{ criteria: CriterionT[] }>(
 export const reports_input = $state<ReportInputT[]>([]);
 
 export const data = $state<{ reports: ReportFormDataT[] }>({ reports: [] })
+
+export const importer = $state<{ form: { criteria: CellRange, subjects: CellRange } } | null>()
+
 
 export function add_report() {
     reports_input.push({title: '', subjects: [], respondents_number: 1})
