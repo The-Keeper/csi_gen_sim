@@ -11,6 +11,9 @@ export const reports_input = $state<ReportInputT[]>([]);
 
 export const data = $state<{ reports: ReportFormDataT[] }>({ reports: [] })
 
+export const importer = $state<{ reports: ReportFormDataT[] }>({ reports: [] })
+
+
 export function add_report() {
     reports_input.push({title: '', subjects: [], respondents_number: 1})
 }
