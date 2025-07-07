@@ -2,7 +2,7 @@
 import type { FormSubjectT, ReportFormDataT } from "$lib/data";
 import { data, reports_input, layout } from "$lib/store.svelte";
 import { randomIntFromInterval } from "$lib/math";
-import { findAlignedGridAndOutliers } from "$lib/grid";
+import { findAlignedGridAndOutliers, findMissingValues, type AlignmentResult } from "$lib/grid";
 
 function generate() {
 	let result = [] as ReportFormDataT[];
@@ -47,15 +47,20 @@ function generate() {
 }
 
 function parseTextAreaContent() {
-	const result = findAlignedGridAndOutliers(addGridContent);
-
-	console.log(result);
+	gridParseResult = findAlignedGridAndOutliers(addGridContent);
 }
 
 let selected_report_idx = $state(0);
 let selected_form_idx = $state(0);
 
 let addGridContent = $state("");
+let gridParseResult = $state({
+	alignedGrid: [],
+	outliers: [],
+}) as AlignmentResult;
+
+let outliersFound = $derived(gridParseResult?.outliers?.length>0);
+let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid))
 </script>
 
 <div>
@@ -65,10 +70,29 @@ let addGridContent = $state("");
 <details>
 	<summary>Добавление данных по решётке</summary>
 
-	<div class="flex flex-col">
-		<textarea bind:value={addGridContent}></textarea>
+	<div class="flex">
+		<div class="flex flex-col">
+			<textarea bind:value={addGridContent}></textarea>
 
-		<button class="btn" onclick={parseTextAreaContent}>Прочитать</button>
+			<button class="btn" onclick={parseTextAreaContent}>Прочитать</button>
+		</div>
+
+		<div>
+			{#if outliersFound}
+				{#each gridParseResult.outliers as outlier, i}
+					<p>
+						Найден элемент вне решётки в {outlier.col+1}-й колонке {outlier.row+1}-й строки: {outlier.value}
+					</p>
+				{/each}
+			{/if}
+			{#if missingValues.length > 0}
+				{#each missingValues as mv, i}
+					<p>
+						Отсутствует значение в клетке: строка {mv.row+1}, колонка {mv.col+1}
+					</p>
+				{/each}
+			{/if}
+		</div>
 	</div>
 </details>
 

@@ -86,3 +86,20 @@ export function findAlignedGridAndOutliers(
 
 	return { outliers, alignedGrid };
 }
+
+interface MissingValue {
+    row: number;  // Row index in alignedGrid
+    col: number;  // Column index in alignedGrid
+}
+
+export function findMissingValues(alignedGrid: (number | null)[][]): MissingValue[] {
+    const missingValues: MissingValue[] = [];
+    for (let row = 0; row < alignedGrid.length; row++) {
+        for (let col = 0; col < alignedGrid[row].length; col++) {
+            if (alignedGrid[row][col] === null) {
+                missingValues.push({ row, col });
+            }
+        }
+    }
+    return missingValues;
+}
