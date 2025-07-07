@@ -2,7 +2,33 @@
 import type { FormSubjectT, ReportFormDataT } from "$lib/data";
 import { data, reports_input, layout } from "$lib/store.svelte";
 import { randomIntFromInterval } from "$lib/math";
-import { findAlignedGridAndOutliers, findMissingValues, type AlignmentResult } from "$lib/grid";
+import {
+	findAlignedGridAndOutliers,
+	findMissingValues,
+	type AlignmentResult,
+} from "$lib/grid";
+
+function addFormToReport(report_idx: number) {
+	const report_input = reports_input[report_idx];
+	const number_of_resp = data.reports[report_idx].forms.length;
+
+	const form = {
+		respondent_name: `Респондент ${number_of_resp + 1}`,
+		subjects: [] as FormSubjectT[],
+	};
+	form.subjects = report_input.subjects.map((subj) => {
+		return {
+			name: subj,
+			criteria: layout.criteria.map((criterion) => {
+				return {
+					weight: 10,
+					score: 10,
+				};
+			}),
+		};
+	});
+	data.reports[report_idx].forms.push(form);
+}
 
 function generate() {
 	let result = [] as ReportFormDataT[];
@@ -59,12 +85,19 @@ let gridParseResult = $state({
 	outliers: [],
 }) as AlignmentResult;
 
-let outliersFound = $derived(gridParseResult?.outliers?.length>0);
-let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid))
+let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
+let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
+
+function addFormToSelectedReport() {
+	addFormToReport(selected_report_idx);
+	selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
+}
 </script>
 
 <div>
 	<button class="btn" onclick={generate}>Генерировать</button>
+	<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
+
 </div>
 
 <details>
