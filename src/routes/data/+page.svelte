@@ -2,6 +2,7 @@
 import type { FormSubjectT, ReportFormDataT } from "$lib/data";
 import { data, reports_input, layout } from "$lib/store.svelte";
 import { randomIntFromInterval } from "$lib/math";
+import { findAlignedGridAndOutliers } from "$lib/grid";
 
 function generate() {
 	let result = [] as ReportFormDataT[];
@@ -45,13 +46,31 @@ function generate() {
 	data.reports = result;
 }
 
+function parseTextAreaContent() {
+	const result = findAlignedGridAndOutliers(addGridContent);
+
+	console.log(result);
+}
+
 let selected_report_idx = $state(0);
 let selected_form_idx = $state(0);
+
+let addGridContent = $state("");
 </script>
 
 <div>
 	<button class="btn" onclick={generate}>Генерировать</button>
 </div>
+
+<details>
+	<summary>Добавление данных по решётке</summary>
+
+	<div class="flex flex-col">
+		<textarea bind:value={addGridContent}></textarea>
+
+		<button class="btn" onclick={parseTextAreaContent}>Прочитать</button>
+	</div>
+</details>
 
 <div>
 	<select name="selected_report" bind:value={selected_report_idx}>
