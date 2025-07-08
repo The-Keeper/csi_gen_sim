@@ -1,5 +1,6 @@
 <script lang="ts">
   import 'virtual:uno.css';
+  import '@unocss/reset/tailwind-compat.css'
 
   interface Props {
 		children?: import('svelte').Snippet;
