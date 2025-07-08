@@ -7,6 +7,7 @@ import {
 	findMissingValues,
 	type AlignmentResult,
 } from "$lib/grid";
+import { useSortable, reorder } from "$lib/use-sortable.svelte";
 
 function addFormToReport(report_idx: number) {
 	const report_input = reports_input[report_idx];
@@ -93,12 +94,26 @@ function addFormToSelectedReport() {
 	addFormToReport(selected_report_idx);
 	selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
 }
+
+let forms_sortable = $state<HTMLElement | null>(null);
+
+useSortable(() => forms_sortable, {
+	animation: 200,
+	// handle: '.my-handle',
+	ghostClass: "opacity-0",
+	onEnd(evt) {
+		data.reports[selected_report_idx].forms = reorder(
+			data.reports[selected_report_idx].forms,
+			evt,
+		);
+		data.reports[selected_report_idx].forms = data.reports[selected_report_idx].forms;
+	},
+});
 </script>
 
 <div>
 	<button class="btn" onclick={generate}>Генерировать</button>
 	<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
-
 </div>
 
 <details>
@@ -115,14 +130,14 @@ function addFormToSelectedReport() {
 			{#if outliersFound}
 				{#each gridParseResult.outliers as outlier, i}
 					<p>
-						Найден элемент вне решётки в {outlier.col+1}-й колонке {outlier.row+1}-й строки: {outlier.value}
+						Найден элемент вне решётки в {outlier.col + 1}-й колонке {outlier.row + 1}-й строки: {outlier.value}
 					</p>
 				{/each}
 			{/if}
 			{#if missingValues.length > 0}
 				{#each missingValues as mv, i}
 					<p>
-						Отсутствует значение в клетке: строка {mv.row+1}, колонка {mv.col+1}
+						Отсутствует значение в клетке: строка {mv.row + 1}, колонка {mv.col + 1}
 					</p>
 				{/each}
 			{/if}
@@ -137,7 +152,13 @@ function addFormToSelectedReport() {
 		{/each}
 	</select>
 
-	<select size="5" name="selected_report" bind:value={selected_form_idx}>
+	<ul bind:this={forms_sortable}>
+		{#each data.reports[selected_report_idx]?.forms as item (item)}
+			<li>{item.respondent_name}</li>
+		{/each}
+	</ul>
+
+	<select size="5" name="selected_form" bind:value={selected_form_idx}>
 		{#each data.reports[selected_report_idx]?.forms as form, i}
 			<option value={i}>{form.respondent_name}</option>
 		{/each}
