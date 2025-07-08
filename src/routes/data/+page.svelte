@@ -106,7 +106,6 @@ useSortable(() => forms_sortable, {
 			data.reports[selected_report_idx].forms,
 			evt,
 		);
-		data.reports[selected_report_idx].forms = data.reports[selected_report_idx].forms;
 	},
 });
 </script>
@@ -153,16 +152,11 @@ useSortable(() => forms_sortable, {
 	</select>
 
 	<ul bind:this={forms_sortable}>
-		{#each data.reports[selected_report_idx]?.forms as item (item)}
-			<li>{item.respondent_name}</li>
+		{#each data.reports[selected_report_idx]?.forms as item, i (item)}
+			<li class={ `${selected_form_idx === i ? 'bg-blue-500' : 'bg-gray-500'}` } onclick={() => selected_form_idx = i}>{item.respondent_name}</li>
 		{/each}
 	</ul>
 
-	<select size="5" name="selected_form" bind:value={selected_form_idx}>
-		{#each data.reports[selected_report_idx]?.forms as form, i}
-			<option value={i}>{form.respondent_name}</option>
-		{/each}
-	</select>
 </div>
 
 {#if data?.reports[selected_report_idx]?.forms[selected_form_idx]}
