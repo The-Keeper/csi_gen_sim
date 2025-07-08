@@ -29,7 +29,8 @@ function addFormToReport(report_idx: number) {
 		};
 	});
 	data.reports[report_idx].forms.push(form);
-	reports_input[report_idx].respondents_number++;
+	reports_input[report_idx].respondents_number =
+		data.reports[report_idx].forms.length;
 }
 
 function generate() {
@@ -144,19 +145,34 @@ useSortable(() => forms_sortable, {
 	</div>
 </details>
 
-<div>
-	<select size="5" name="selected_report" bind:value={selected_report_idx}>
+<div class="flex gap-2">
+	<ul class="w-sm overflow-y-auto h-30">
 		{#each reports_input as report_input, i}
-			<option value={i}>{report_input.title}</option>
-		{/each}
-	</select>
-
-	<ul bind:this={forms_sortable}>
-		{#each data.reports[selected_report_idx]?.forms as item, i (item)}
-			<li class={ `${selected_form_idx === i ? 'bg-blue-500' : 'bg-gray-500'}` } onclick={() => selected_form_idx = i}>{item.respondent_name}</li>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<li
+				role="option"
+				aria-selected={selected_report_idx === i}
+				class={`${selected_report_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
+				onclick={() => (selected_report_idx = i)}
+			>
+				{report_input.title}
+			</li>
 		{/each}
 	</ul>
 
+	<ul class="w-sm overflow-y-auto h-30" bind:this={forms_sortable}>
+		{#each data.reports[selected_report_idx]?.forms as item, i (item)}
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<li
+				role="option"
+				aria-selected={selected_form_idx === i}
+				class={`${selected_form_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
+				onclick={() => (selected_form_idx = i)}
+			>
+				{item.respondent_name}
+			</li>
+		{/each}
+	</ul>
 </div>
 
 {#if data?.reports[selected_report_idx]?.forms[selected_form_idx]}
