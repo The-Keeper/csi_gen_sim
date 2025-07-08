@@ -32,5 +32,9 @@
     "@unocss/extractor-svelte": "66.3.2",
     "vite": "^5.4.19"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@types/sortablejs": "^1.15.8",
+    "sortablejs": "^1.15.6"
+  }
 }

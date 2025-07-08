@@ -28,6 +28,7 @@ function addFormToReport(report_idx: number) {
 		};
 	});
 	data.reports[report_idx].forms.push(form);
+	reports_input[report_idx].respondents_number++;
 }
 
 function generate() {
@@ -130,13 +131,13 @@ function addFormToSelectedReport() {
 </details>
 
 <div>
-	<select name="selected_report" bind:value={selected_report_idx}>
+	<select size="5" name="selected_report" bind:value={selected_report_idx}>
 		{#each reports_input as report_input, i}
 			<option value={i}>{report_input.title}</option>
 		{/each}
 	</select>
 
-	<select name="selected_report" bind:value={selected_form_idx}>
+	<select size="5" name="selected_report" bind:value={selected_form_idx}>
 		{#each data.reports[selected_report_idx]?.forms as form, i}
 			<option value={i}>{form.respondent_name}</option>
 		{/each}
