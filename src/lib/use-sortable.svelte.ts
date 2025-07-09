@@ -1,24 +1,22 @@
-
-import Sortable from 'sortablejs';
+import Sortable from "sortablejs";
 
 export const useSortable = (
     getter: () => HTMLElement | null,
-    options?: Sortable.Options
+    options?: Sortable.Options,
 ) => {
     $effect(() => {
         const sortableEl = getter();
-        const sortable = sortableEl ?
-            Sortable.create(sortableEl, options)
+        const sortable = sortableEl
+            ? Sortable.create(sortableEl, options)
             : null;
         return () => sortable?.destroy();
     });
-}
+};
 
 export function reorder<T>(
     array: T[],
-    evt: Sortable.SortableEvent
+    evt: Sortable.SortableEvent,
 ): $state.Snapshot<T>[] {
-
     // should have no effect on stores or regular array
     const workArray = $state.snapshot(array);
 

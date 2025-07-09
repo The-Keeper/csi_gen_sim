@@ -1,13 +1,16 @@
 <script lang="ts">
-	import WeightScoreBlock from "./WeightScoreBlock.svelte";
+import WeightScoreBlock from "./WeightScoreBlock.svelte";
 
-    let { index, criterion = $bindable({
+let {
+    index,
+    criterion = $bindable({
         name: "Критерий",
         weight_min: 5,
         weight_max: 10,
         score_min: 8,
         score_max: 10,
-    }) } = $props();
+    }),
+} = $props();
 </script>
 <div class="block">
     <div class="flex justify-center items-center gap-2">

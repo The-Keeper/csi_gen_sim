@@ -1,6 +1,10 @@
 <script lang="ts">
-	import { add_report, remove_report_at_idx, reports_input } from "$lib/store.svelte";
-	import TextAreaArray from "$lib/components/TextAreaArray.svelte";
+import {
+    add_report,
+    remove_report_at_idx,
+    reports_input,
+} from "$lib/store.svelte";
+import TextAreaArray from "$lib/components/TextAreaArray.svelte";
 </script>
 
 <div class="flex flex-col gap-4 w-full">

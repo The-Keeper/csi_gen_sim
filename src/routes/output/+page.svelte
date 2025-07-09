@@ -4,10 +4,10 @@ import { reports_input, output, layout } from "$lib/store.svelte";
 const data = $derived(output());
 
 function formatNumber(number: number, digits = 1, minimumFractionDigits = 1) {
-	return number.toLocaleString("ru-RU", {
-		maximumFractionDigits: digits,
-		minimumFractionDigits,
-	});
+    return number.toLocaleString("ru-RU", {
+        maximumFractionDigits: digits,
+        minimumFractionDigits,
+    });
 }
 </script>
 {#each data.per_report_output as report, report_idx}           

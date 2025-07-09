@@ -1,17 +1,17 @@
 <script lang="ts">
-    interface Props {
-        weight_min: number;
-        weight_max: number;
-        score_min: number;
-        score_max: number;
-    }
+interface Props {
+    weight_min: number;
+    weight_max: number;
+    score_min: number;
+    score_max: number;
+}
 
-    let {
-        weight_min = $bindable(5),
-        weight_max = $bindable(10),
-        score_min = $bindable(8),
-        score_max = $bindable(10)
-    }: Props = $props();
+let {
+    weight_min = $bindable(5),
+    weight_max = $bindable(10),
+    score_min = $bindable(8),
+    score_max = $bindable(10),
+}: Props = $props();
 </script>
 <div class="block">   
     <div class="flex items-center justify-end gap-1">

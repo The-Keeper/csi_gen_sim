@@ -3,80 +3,80 @@ import type { FormSubjectT, ReportFormDataT } from "$lib/data";
 import { data, reports_input, layout } from "$lib/store.svelte";
 import { randomIntFromInterval } from "$lib/math";
 import {
-	findAlignedGridAndOutliers,
-	findMissingValues,
-	type AlignmentResult,
+    findAlignedGridAndOutliers,
+    findMissingValues,
+    type AlignmentResult,
 } from "$lib/grid";
 import { useSortable, reorder } from "$lib/use-sortable.svelte";
 
 function addFormToReport(report_idx: number) {
-	const report_input = reports_input[report_idx];
-	const number_of_resp = data.reports[report_idx].forms.length;
+    const report_input = reports_input[report_idx];
+    const number_of_resp = data.reports[report_idx].forms.length;
 
-	const form = {
-		respondent_name: `Респондент ${number_of_resp + 1}`,
-		subjects: [] as FormSubjectT[],
-	};
-	form.subjects = report_input.subjects.map((subj) => {
-		return {
-			name: subj,
-			criteria: layout.criteria.map((criterion) => {
-				return {
-					weight: 10,
-					score: 10,
-				};
-			}),
-		};
-	});
-	data.reports[report_idx].forms.push(form);
-	reports_input[report_idx].respondents_number =
-		data.reports[report_idx].forms.length;
+    const form = {
+        respondent_name: `Респондент ${number_of_resp + 1}`,
+        subjects: [] as FormSubjectT[],
+    };
+    form.subjects = report_input.subjects.map((subj) => {
+        return {
+            name: subj,
+            criteria: layout.criteria.map((criterion) => {
+                return {
+                    weight: 10,
+                    score: 10,
+                };
+            }),
+        };
+    });
+    data.reports[report_idx].forms.push(form);
+    reports_input[report_idx].respondents_number =
+        data.reports[report_idx].forms.length;
 }
 
 function generate() {
-	let result = [] as ReportFormDataT[];
-	for (let report_idx = 0; report_idx < reports_input.length; report_idx++) {
-		const report_input = reports_input[report_idx];
+    let result = [] as ReportFormDataT[];
+    for (let report_idx = 0; report_idx < reports_input.length; report_idx++) {
+        const report_input = reports_input[report_idx];
 
-		let report = { forms: [] } as ReportFormDataT;
+        let report = { forms: [] } as ReportFormDataT;
 
-		for (
-			let respondent_idx = 0;
-			respondent_idx < report_input.respondents_number;
-			respondent_idx++
-		) {
-			const form = {
-				respondent_name: `Респондент ${respondent_idx + 1}`,
-				subjects: [] as FormSubjectT[],
-			};
-			form.subjects = report_input.subjects.map((subj) => {
-				return {
-					name: subj,
-					criteria: layout.criteria.map((criterion) => {
-						return {
-							weight: randomIntFromInterval(
-								criterion.weight_min,
-								criterion.weight_max,
-							),
-							score: randomIntFromInterval(
-								criterion.score_min,
-								criterion.score_max,
-							),
-						};
-					}),
-				};
-			});
-			report.forms.push(form);
-		}
+        for (
+            let respondent_idx = 0;
+            respondent_idx < report_input.respondents_number;
+            respondent_idx++
+        ) {
+            const form = {
+                respondent_name: `Респондент ${respondent_idx + 1}`,
+                subjects: [] as FormSubjectT[],
+            };
+            form.subjects = report_input.subjects.map((subj) => {
+                return {
+                    name: subj,
+                    criteria: layout.criteria.map((criterion) => {
+                        return {
+                            weight: randomIntFromInterval(
+                                criterion.weight_min,
+                                criterion.weight_max,
+                            ),
+                            score: randomIntFromInterval(
+                                criterion.score_min,
+                                criterion.score_max,
+                            ),
+                        };
+                    }),
+                };
+            });
+            report.forms.push(form);
+        }
 
-		result.push(report);
-	}
+        result.push(report);
+    }
 
-	data.reports = result;
+    data.reports = result;
 }
 
 function parseTextAreaContent() {
-	gridParseResult = findAlignedGridAndOutliers(addGridContent);
+    gridParseResult = findAlignedGridAndOutliers(addGridContent);
 }
 
 let selected_report_idx = $state(0);
@@ -84,30 +84,30 @@ let selected_form_idx = $state(0);
 
 let addGridContent = $state("");
 let gridParseResult = $state({
-	alignedGrid: [],
-	outliers: [],
+    alignedGrid: [],
+    outliers: [],
 }) as AlignmentResult;
 
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
 
 function addFormToSelectedReport() {
-	addFormToReport(selected_report_idx);
-	selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
+    addFormToReport(selected_report_idx);
+    selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
 }
 
 let forms_sortable = $state<HTMLElement | null>(null);
 
 useSortable(() => forms_sortable, {
-	animation: 200,
-	// handle: '.my-handle',
-	ghostClass: "opacity-0",
-	onEnd(evt) {
-		data.reports[selected_report_idx].forms = reorder(
-			data.reports[selected_report_idx].forms,
-			evt,
-		);
-	},
+    animation: 200,
+    // handle: '.my-handle',
+    ghostClass: "opacity-0",
+    onEnd(evt) {
+        data.reports[selected_report_idx].forms = reorder(
+            data.reports[selected_report_idx].forms,
+            evt,
+        );
+    },
 });
 </script>
 

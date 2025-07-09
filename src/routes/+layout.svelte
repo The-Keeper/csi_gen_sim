@@ -1,21 +1,20 @@
 <script lang="ts">
-  import 'virtual:uno.css';
-  import '@unocss/reset/tailwind-compat.css'
+import "virtual:uno.css";
+import "@unocss/reset/tailwind-compat.css";
 
-  interface Props {
-		children?: import('svelte').Snippet;
-	}
+interface Props {
+    children?: import("svelte").Snippet;
+}
 
-	let { children }: Props = $props();
+let { children }: Props = $props();
 
+import { reports_input, layout, data, output } from "$lib/store.svelte";
+import SaveLoad from "$lib/components/SaveLoad.svelte";
+import NavLink from "$lib/components/NavLink.svelte";
+import { base } from "$app/paths";
+import DarkModeToggle from "$lib/components/DarkModeToggle.svelte";
 
-import { reports_input, layout, data, output } from '$lib/store.svelte';
-import SaveLoad from '$lib/components/SaveLoad.svelte';
-import NavLink from '$lib/components/NavLink.svelte';
-import { base } from '$app/paths';
-import DarkModeToggle from '$lib/components/DarkModeToggle.svelte';
-
-const output_data = $derived(output())
+const output_data = $derived(output());
 </script>
 
 <DarkModeToggle />
