@@ -9,7 +9,7 @@ import {
 } from "$lib/grid";
 import { useSortable, reorder } from "$lib/use-sortable.svelte";
 
-function addFormToReport(report_idx: number) {
+function makeForm(report_idx: number, generate = false) {
     const report_input = reports_input[report_idx];
     const number_of_resp = data.reports[report_idx].forms.length;
 
@@ -21,6 +21,18 @@ function addFormToReport(report_idx: number) {
         return {
             name: subj,
             criteria: layout.criteria.map((criterion) => {
+                if (generate) {
+                    return {
+                        weight: randomIntFromInterval(
+                            criterion.weight_min,
+                            criterion.weight_max,
+                        ),
+                        score: randomIntFromInterval(
+                            criterion.score_min,
+                            criterion.score_max,
+                        ),
+                    };
+                }
                 return {
                     weight: 10,
                     score: 10,
@@ -28,6 +40,11 @@ function addFormToReport(report_idx: number) {
             }),
         };
     });
+    return form;
+}
+
+function addFormToReport(report_idx: number) {
+    const form = makeForm(report_idx);
     data.reports[report_idx].forms.push(form);
     reports_input[report_idx].respondents_number =
         data.reports[report_idx].forms.length;
@@ -45,27 +62,7 @@ function generate() {
             respondent_idx < report_input.respondents_number;
             respondent_idx++
         ) {
-            const form = {
-                respondent_name: `Респондент ${respondent_idx + 1}`,
-                subjects: [] as FormSubjectT[],
-            };
-            form.subjects = report_input.subjects.map((subj) => {
-                return {
-                    name: subj,
-                    criteria: layout.criteria.map((criterion) => {
-                        return {
-                            weight: randomIntFromInterval(
-                                criterion.weight_min,
-                                criterion.weight_max,
-                            ),
-                            score: randomIntFromInterval(
-                                criterion.score_min,
-                                criterion.score_max,
-                            ),
-                        };
-                    }),
-                };
-            });
+            const form = makeForm(report_idx, true);
             report.forms.push(form);
         }
 
@@ -90,6 +87,7 @@ let gridParseResult = $state({
 
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
+let noErrors = $derived(![outliersFound, missingValues].some((e) => e));
 
 function addFormToSelectedReport() {
     addFormToReport(selected_report_idx);
@@ -142,6 +140,9 @@ useSortable(() => forms_sortable, {
 				{/each}
 			{/if}
 		</div>
+		{#if noErrors}
+			<p>Ошибок не найдено</p>
+		{/if}
 	</div>
 </details>
 
