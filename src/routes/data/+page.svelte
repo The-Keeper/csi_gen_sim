@@ -94,6 +94,10 @@ function addFormToSelectedReport() {
     selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
 }
 
+function deleteSelectedForm() {
+	data.reports[selected_report_idx].forms.splice(selected_form_idx, 1);
+}
+
 let forms_sortable = $state<HTMLElement | null>(null);
 
 useSortable(() => forms_sortable, {
@@ -112,6 +116,7 @@ useSortable(() => forms_sortable, {
 <div>
 	<button class="btn" onclick={generate}>Генерировать</button>
 	<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
+	<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
 </div>
 
 <details>
