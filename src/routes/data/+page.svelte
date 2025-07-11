@@ -267,11 +267,9 @@ let someFormSelected = $derived(
 		{/each}
 	</fieldset>
 
-	<div class="flex">
+	<div class="flex items-center content-center gap-2">
 		<div class="flex flex-col">
-			<textarea class="txt-input" bind:value={addGridContent}></textarea>
-
-			<button class="btn" onclick={parseTextAreaContent}>Прочитать</button>
+			<textarea class="txt-input" oninput={parseTextAreaContent} bind:value={addGridContent}></textarea>
 		</div>
 
 		<div>
@@ -294,8 +292,10 @@ let someFormSelected = $derived(
 			{/if}
 		</div>
 		{#if !errorsPresent}
+		<div class="flex flex-col gap-2">
 			<p>Ошибок не найдено</p>
 			<button class="btn" onclick={readIntoForm}>Записать</button>
+		</div>
 		{/if}
 	</div>
 </details>
