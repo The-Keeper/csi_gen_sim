@@ -88,7 +88,7 @@ let gridParseResult = $state({
 let use_generation_ranges = false;
 
 const DataDirectionsDict = {
-	"crit-v-subj-h": "Критерии по вертикали, дисциплины по горизонтали",
+    "crit-v-subj-h": "Критерии по вертикали, дисциплины по горизонтали",
     "crit-h-subj-v": "Критерии по горизонтали, дисциплины по вертикали",
 } as const;
 
@@ -106,7 +106,10 @@ let ws_cell_order: WSOrderT = $state("weight-first");
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
 let dataDimensionsMatch = $derived.by(() => {
-    const subj_num_dbl = reports_input[selected_form_idx].subjects.length * 2;
+    if (!reports_input[selected_report_idx]) {
+        return false;
+    }
+    const subj_num_dbl = reports_input[selected_report_idx].subjects.length * 2;
     const crit_num = layout.criteria.length;
     if (data_direction === "crit-v-subj-h") {
         return (
@@ -201,7 +204,7 @@ function readIntoForm() {
 
 function addFormToSelectedReport() {
     addFormToReport(selected_report_idx);
-    selected_form_idx = data.reports[selected_report_idx].forms.length - 1;
+    selected_form_idx = data.reports[selected_report_idx]?.forms.length - 1;
 }
 
 function deleteSelectedForm() {
@@ -221,6 +224,10 @@ useSortable(() => forms_sortable, {
         );
     },
 });
+
+let someFormSelected = $derived(
+    Boolean(data?.reports[selected_report_idx]?.forms[selected_form_idx]),
+);
 </script>
 
 <div>
@@ -235,12 +242,7 @@ useSortable(() => forms_sortable, {
 	<fieldset class="flex flex-col">
 		{#each Object.entries(DataDirectionsDict) as [value, text]}
 			<label>
-				<input
-					type="radio"
-					name="dir"
-					value={value}
-					bind:group={data_direction}
-				/>
+				<input type="radio" name="dir" {value} bind:group={data_direction} />
 
 				{text}
 			</label>
@@ -250,12 +252,7 @@ useSortable(() => forms_sortable, {
 	<fieldset class="flex flex-col">
 		{#each Object.entries(WSOrderDict) as [value, text]}
 			<label>
-				<input
-					type="radio"
-					name="ws_cell_order"
-					value={value}
-					bind:group={ws_cell_order}
-				/>
+				<input type="radio" name="ws_cell_order" {value} bind:group={ws_cell_order} />
 
 				{text}
 			</label>
@@ -324,24 +321,26 @@ useSortable(() => forms_sortable, {
 		{/each}
 	</ul>
 
-	<fieldset class="border rounded-lg">
-		<legend>Данные респондента</legend>
+	{#if someFormSelected}
+		<fieldset class="border rounded-lg">
+			<legend>Данные респондента</legend>
 
-		<div class="flex flex-col m-2">
-			<label for="resp_name">Имя</label>
+			<div class="flex flex-col m-2">
+				<label for="resp_name">Имя</label>
 
-			<input
-				class="txt-input"
-				type="text"
-				name="resp_name"
-				id="resp_name"
-				bind:value={data.reports[selected_report_idx].forms[selected_form_idx].respondent_name}
-			/>
-		</div>
-	</fieldset>
+				<input
+					class="txt-input"
+					type="text"
+					name="resp_name"
+					id="resp_name"
+					bind:value={data.reports[selected_report_idx].forms[selected_form_idx].respondent_name}
+				/>
+			</div>
+		</fieldset>
+	{/if}
 </div>
 
-{#if data?.reports[selected_report_idx]?.forms[selected_form_idx]}
+{#if someFormSelected}
 	<div class="w-full overflow-x-auto whitespace-nowrap py-4">
 		{#each data.reports[selected_report_idx].forms[selected_form_idx].subjects as subject_data, i}
 			<div
