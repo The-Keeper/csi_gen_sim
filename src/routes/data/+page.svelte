@@ -85,9 +85,63 @@ let gridParseResult = $state({
     outliers: [],
 }) as AlignmentResult;
 
+let data_direction: 'crit-h-subj-v' | 'crit-v-subj-h' = 'crit-v-subj-h';
+let ws_cell_order: 'weight-first' | 'score_first' = 'weight-first'
+
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
-let noErrors = $derived(![outliersFound, missingValues].some((e) => e));
+let dataDimensionsMatch = $derived.by(() => {
+	const subj_num_dbl = data.reports[selected_report_idx].forms[selected_form_idx].subjects.length * 2;
+	const crit_num = layout.criteria.length;
+	if (data_direction === 'crit-v-subj-h') {
+		return gridParseResult.alignedGrid.length === crit_num && gridParseResult.alignedGrid[0].length === subj_num_dbl;
+	}
+	if (data_direction === 'crit-h-subj-v') {
+		return gridParseResult.alignedGrid.length === subj_num_dbl && gridParseResult.alignedGrid[0].length === crit_num;
+	}
+	return false;
+})
+
+let errorsPresent = $derived([outliersFound, missingValues.length > 0, !dataDimensionsMatch].some((e) => e));
+
+function readIntoForm() {
+	if (data_direction === 'crit-v-subj-h') {
+		for (let crit_idx = 0; crit_idx < gridParseResult.alignedGrid.length; crit_idx++) {
+			for (let subj_h_idx = 0; subj_h_idx < gridParseResult.alignedGrid[crit_idx].length; subj_h_idx+=2) {
+				let score = 10;
+				let weight = 10;
+				const subj_idx = Math.floor(subj_h_idx / 2);
+				if (ws_cell_order === 'score_first') {
+					score = gridParseResult.alignedGrid[crit_idx][subj_h_idx] || 10;
+					weight = gridParseResult.alignedGrid[crit_idx][subj_h_idx+1] || 10;
+				}
+				if (ws_cell_order === 'weight-first') {
+					weight = gridParseResult.alignedGrid[crit_idx][subj_h_idx] || 10;
+					score = gridParseResult.alignedGrid[crit_idx][subj_h_idx+1] || 10;
+				}
+				data.reports[selected_report_idx].forms[selected_form_idx].subjects[subj_idx].criteria[crit_idx] = { weight, score }
+			}
+		}
+	}
+	else if (data_direction === 'crit-h-subj-v') {
+		for (let subj_idx = 0; subj_idx < gridParseResult.alignedGrid.length; subj_idx++) {
+			for (let crit_h_idx = 0; crit_h_idx < gridParseResult.alignedGrid[subj_idx].length; crit_h_idx+=2) {
+				let score = 10;
+				let weight = 10;
+				const crit_idx = Math.floor(crit_h_idx / 2);
+				if (ws_cell_order === 'score_first') {
+					score = gridParseResult.alignedGrid[subj_idx][crit_h_idx] || 10;
+					weight = gridParseResult.alignedGrid[subj_idx][crit_h_idx+1] || 10;
+				}
+				if (ws_cell_order === 'weight-first') {
+					weight = gridParseResult.alignedGrid[subj_idx][crit_h_idx] || 10;
+					score = gridParseResult.alignedGrid[subj_idx][crit_h_idx+1] || 10;
+				}
+				data.reports[selected_report_idx].forms[selected_form_idx].subjects[subj_idx].criteria[crit_idx] = { weight, score }
+			}
+		}
+	}
+}
 
 function addFormToSelectedReport() {
     addFormToReport(selected_report_idx);
@@ -144,9 +198,13 @@ useSortable(() => forms_sortable, {
 					</p>
 				{/each}
 			{/if}
+			{#if !dataDimensionsMatch}
+				Массив данных не сходится с размерами формы
+			{/if}
 		</div>
-		{#if noErrors}
+		{#if !errorsPresent}
 			<p>Ошибок не найдено</p>
+			<button onclick={readIntoForm}>Записать</button>
 		{/if}
 	</div>
 </details>
