@@ -87,8 +87,21 @@ let gridParseResult = $state({
 
 let use_generation_ranges = false;
 
-let data_direction: "crit-h-subj-v" | "crit-v-subj-h" = "crit-v-subj-h";
-let ws_cell_order: "weight-first" | "score_first" = "weight-first";
+const DataDirectionsDict = {
+	"crit-v-subj-h": "Критерии по вертикали, дисциплины по горизонтали",
+    "crit-h-subj-v": "Критерии по горизонтали, дисциплины по вертикали",
+} as const;
+
+type DataDirectionsT = keyof typeof DataDirectionsDict;
+
+const WSOrderDict = {
+    "weight-first": "Сначала вес, потом балл",
+    "score-first": "Сначала балл, потом вес",
+} as const;
+type WSOrderT = keyof typeof WSOrderDict;
+
+let data_direction: DataDirectionsT = $state("crit-v-subj-h");
+let ws_cell_order: WSOrderT = $state("weight-first");
 
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
@@ -131,7 +144,7 @@ function readIntoForm() {
                 let score = 10;
                 let weight = 10;
                 const subj_idx = Math.floor(subj_h_idx / 2);
-                if (ws_cell_order === "score_first") {
+                if (ws_cell_order === "score-first") {
                     score =
                         gridParseResult.alignedGrid[crit_idx][subj_h_idx] || 10;
                     weight =
@@ -164,7 +177,7 @@ function readIntoForm() {
                 let score = 10;
                 let weight = 10;
                 const crit_idx = Math.floor(crit_h_idx / 2);
-                if (ws_cell_order === "score_first") {
+                if (ws_cell_order === "score-first") {
                     score =
                         gridParseResult.alignedGrid[subj_idx][crit_h_idx] || 10;
                     weight =
@@ -218,6 +231,36 @@ useSortable(() => forms_sortable, {
 
 <details>
 	<summary>Добавление данных по решётке</summary>
+
+	<fieldset class="flex flex-col">
+		{#each Object.entries(DataDirectionsDict) as [value, text]}
+			<label>
+				<input
+					type="radio"
+					name="dir"
+					value={value}
+					bind:group={data_direction}
+				/>
+
+				{text}
+			</label>
+		{/each}
+	</fieldset>
+
+	<fieldset class="flex flex-col">
+		{#each Object.entries(WSOrderDict) as [value, text]}
+			<label>
+				<input
+					type="radio"
+					name="ws_cell_order"
+					value={value}
+					bind:group={ws_cell_order}
+				/>
+
+				{text}
+			</label>
+		{/each}
+	</fieldset>
 
 	<div class="flex">
 		<div class="flex flex-col">
