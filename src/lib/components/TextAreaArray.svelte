@@ -24,6 +24,6 @@ function handlePaste(e: ClipboardEvent) {
 
 <textarea
 	onpaste={handlePaste}
-	class="main h-40 w-sm"
+	class="h-40 w-sm border txt-input"
 	bind:value={() => values.join('\n') + '\n', setValues}
 ></textarea>

@@ -15,17 +15,19 @@ import TextAreaArray from "$lib/components/TextAreaArray.svelte";
 				<div class="flex items-end gap-2">
 					<div>
 						<label class="block" for="{`title_${r_idx}`}">Название отчёта</label>
-						<input class="main" id="{`title_${r_idx}`}" bind:value={r_input.title} />	
+						<input class="txt-input border" id="{`title_${r_idx}`}" bind:value={r_input.title} />	
 					</div>
 	
 					<div>
 						<label class="block" for="{`number_${r_idx}`}">Число респондентов</label>
-						<input class="main" type="number" min="1" max="1000" bind:value={r_input.respondents_number} />
+						<input class="txt-input border" type="number" min="1" max="1000" bind:value={r_input.respondents_number} />
 					</div>
 				</div>
 
 			</div>
-			<TextAreaArray bind:values = {r_input.subjects} />	
+			<div class="m-2">
+				<TextAreaArray bind:values = {r_input.subjects} />	
+			</div>
 			<button class='btn block h-12' onclick={() => remove_report_at_idx(r_idx)}>Удалить отчет</button>
 
 		</div>
