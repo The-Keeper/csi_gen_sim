@@ -51,25 +51,20 @@ function addFormToReport(report_idx: number) {
 }
 
 function generate(from_selected_range = false) {
-    let result = [] as ReportFormDataT[];
-    for (let report_idx = 0; report_idx < reports_input.length; report_idx++) {
-        const report_input = reports_input[report_idx];
+    const report_input = reports_input[selected_report_idx];
 
-        let report = { forms: [] } as ReportFormDataT;
+    let report = { forms: [] } as ReportFormDataT;
 
-        for (
-            let respondent_idx = 0;
-            respondent_idx < report_input.respondents_number;
-            respondent_idx++
-        ) {
-            const form = makeForm(report_idx, from_selected_range);
-            report.forms.push(form);
-        }
-
-        result.push(report);
+    for (
+        let respondent_idx = 0;
+        respondent_idx < report_input.respondents_number;
+        respondent_idx++
+    ) {
+        const form = makeForm(selected_report_idx, from_selected_range);
+        report.forms.push(form);
     }
 
-    data.reports = result;
+    data.reports[selected_report_idx] = report;
 }
 
 function parseTextAreaContent() {
@@ -232,14 +227,6 @@ let someFormSelected = $derived(
 
 <div class="flex flex-col gap-2">
 	<fieldset>
-		<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
-		<label>
-			<input type="checkbox" name="use_ranges" bind:checked={use_generation_ranges} />
-			из выбранного диапазона
-		</label>
-	</fieldset>
-
-	<fieldset>
 		<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
 		<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
 	</fieldset>
@@ -269,7 +256,8 @@ let someFormSelected = $derived(
 
 	<div class="flex items-center content-center gap-2">
 		<div class="flex flex-col">
-			<textarea class="txt-input" oninput={parseTextAreaContent} bind:value={addGridContent}></textarea>
+			<textarea class="txt-input" oninput={parseTextAreaContent} bind:value={addGridContent}
+			></textarea>
 		</div>
 
 		<div>
@@ -292,28 +280,38 @@ let someFormSelected = $derived(
 			{/if}
 		</div>
 		{#if !errorsPresent}
-		<div class="flex flex-col gap-2">
-			<p>Ошибок не найдено</p>
-			<button class="btn" onclick={readIntoForm}>Записать</button>
-		</div>
+			<div class="flex flex-col gap-2">
+				<p>Ошибок не найдено</p>
+				<button class="btn" onclick={readIntoForm}>Записать</button>
+			</div>
 		{/if}
 	</div>
 </details>
 
 <div class="flex gap-2">
-	<ul class="w-sm overflow-y-auto h-30">
-		{#each reports_input as report_input, i}
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<li
-				role="option"
-				aria-selected={selected_report_idx === i}
-				class={`${selected_report_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
-				onclick={() => (selected_report_idx = i)}
-			>
-				{report_input.title}
-			</li>
-		{/each}
-	</ul>
+	<div class="flex flex-col gap-2">
+		<ul class="w-sm overflow-y-auto h-30">
+			{#each reports_input as report_input, i}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<li
+					role="option"
+					aria-selected={selected_report_idx === i}
+					class={`${selected_report_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
+					onclick={() => (selected_report_idx = i)}
+				>
+					{report_input.title}
+				</li>
+			{/each}
+		</ul>
+
+		<fieldset>
+			<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
+			<label>
+				<input type="checkbox" name="use_ranges" bind:checked={use_generation_ranges} />
+				из выбранного диапазона
+			</label>
+		</fieldset>
+	</div>
 
 	<ul class="w-sm overflow-y-auto h-30" bind:this={forms_sortable}>
 		{#each data.reports[selected_report_idx]?.forms as item, i (item)}
