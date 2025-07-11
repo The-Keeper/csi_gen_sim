@@ -85,7 +85,7 @@ let gridParseResult = $state({
     outliers: [],
 }) as AlignmentResult;
 
-let use_generation_ranges = false;
+let use_generation_ranges = $state(false);
 
 const DataDirectionsDict = {
     "crit-v-subj-h": "Критерии по вертикали, дисциплины по горизонтали",
@@ -230,13 +230,21 @@ let someFormSelected = $derived(
 );
 </script>
 
-<div>
-	<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
-	<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
-	<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
-</div>
+<div class="flex flex-col gap-2">
+	<fieldset>
+		<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
+		<label>
+			<input type="checkbox" name="use_ranges" bind:checked={use_generation_ranges} />
+			из выбранного диапазона
+		</label>
+	</fieldset>
 
-<details>
+	<fieldset>
+		<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
+		<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
+	</fieldset>
+</div>
+<details class="m-2">
 	<summary>Добавление данных по решётке</summary>
 
 	<fieldset class="flex flex-col">
