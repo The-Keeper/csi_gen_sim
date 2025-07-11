@@ -11,10 +11,10 @@ import { useSortable, reorder } from "$lib/use-sortable.svelte";
 
 function makeForm(report_idx: number, generate = false) {
     const report_input = reports_input[report_idx];
-    const number_of_resp = data.reports[report_idx].forms.length;
+    const number_of_resp = reports_input[report_idx].respondents_number;
 
     const form = {
-        respondent_name: `Респондент ${number_of_resp + 1}`,
+        respondent_name: "Респондент",
         subjects: [] as FormSubjectT[],
     };
     form.subjects = report_input.subjects.map((subj) => {
@@ -93,9 +93,7 @@ let ws_cell_order: "weight-first" | "score_first" = "weight-first";
 let outliersFound = $derived(gridParseResult?.outliers?.length > 0);
 let missingValues = $derived(findMissingValues(gridParseResult.alignedGrid));
 let dataDimensionsMatch = $derived.by(() => {
-    const subj_num_dbl =
-        data.reports[selected_report_idx].forms[selected_form_idx].subjects
-            .length * 2;
+    const subj_num_dbl = reports_input[selected_form_idx].subjects.length * 2;
     const crit_num = layout.criteria.length;
     if (data_direction === "crit-v-subj-h") {
         return (
