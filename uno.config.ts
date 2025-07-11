@@ -8,6 +8,7 @@ export default defineConfig({
         {
             btn: "font-medium py-2 px-4 rounded text-black",
             main: "text-gray-8 bg-gray-2 dark:text-gray-2 dark:bg-gray-8",
+             "txt-input": "bg-blue-2 dark:bg-blue-9"
         },
     ],
     presets: [
