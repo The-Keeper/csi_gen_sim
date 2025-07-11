@@ -175,6 +175,9 @@ useSortable(() => forms_sortable, {
 	<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
 </div>
 
+<input type="text" name="resp_name" id="resp_name" bind:value={data.reports[selected_report_idx].forms[selected_form_idx].respondent_name} />
+
+
 <details>
 	<summary>Добавление данных по решётке</summary>
 
