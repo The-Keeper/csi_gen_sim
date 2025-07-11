@@ -50,7 +50,7 @@ function addFormToReport(report_idx: number) {
         data.reports[report_idx].forms.length;
 }
 
-function generate() {
+function generate(from_selected_range = false) {
     let result = [] as ReportFormDataT[];
     for (let report_idx = 0; report_idx < reports_input.length; report_idx++) {
         const report_input = reports_input[report_idx];
@@ -62,7 +62,7 @@ function generate() {
             respondent_idx < report_input.respondents_number;
             respondent_idx++
         ) {
-            const form = makeForm(report_idx, true);
+            const form = makeForm(report_idx, from_selected_range);
             report.forms.push(form);
         }
 
@@ -84,6 +84,8 @@ let gridParseResult = $state({
     alignedGrid: [],
     outliers: [],
 }) as AlignmentResult;
+
+let use_generation_ranges = false;
 
 let data_direction: 'crit-h-subj-v' | 'crit-v-subj-h' = 'crit-v-subj-h';
 let ws_cell_order: 'weight-first' | 'score_first' = 'weight-first'
@@ -168,7 +170,7 @@ useSortable(() => forms_sortable, {
 </script>
 
 <div>
-	<button class="btn" onclick={generate}>Генерировать</button>
+	<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
 	<button class="btn" onclick={addFormToSelectedReport}>Добавить анкету</button>
 	<button class="btn" onclick={deleteSelectedForm}>Удалить анкету</button>
 </div>
@@ -204,7 +206,7 @@ useSortable(() => forms_sortable, {
 		</div>
 		{#if !errorsPresent}
 			<p>Ошибок не найдено</p>
-			<button onclick={readIntoForm}>Записать</button>
+			<button class="btn" onclick={readIntoForm}>Записать</button>
 		{/if}
 	</div>
 </details>
