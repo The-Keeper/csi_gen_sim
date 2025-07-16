@@ -290,19 +290,21 @@ let someFormSelected = $derived(
 
 <div class="flex gap-2">
 	<div class="flex flex-col gap-2">
-		<ul class="w-sm overflow-y-auto h-30">
-			{#each reports_input as report_input, i}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<li
-					role="option"
-					aria-selected={selected_report_idx === i}
-					class={`${selected_report_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
-					onclick={() => (selected_report_idx = i)}
-				>
-					{report_input.title}
-				</li>
-			{/each}
-		</ul>
+		{#if reports_input.length > 0}
+			<ul class="w-sm overflow-y-auto h-30">
+				{#each reports_input as report_input, i}
+					<!-- svelte-ignore a11y_click_events_have_key_events -->
+					<li
+						role="option"
+						aria-selected={selected_report_idx === i}
+						class={`${selected_report_idx === i ? 'bg-blue-500' : 'bg-gray-500'}`}
+						onclick={() => (selected_report_idx = i)}
+					>
+						{report_input.title}
+					</li>
+				{/each}
+			</ul>
+		{/if}
 
 		<fieldset>
 			<button class="btn" onclick={() => generate(use_generation_ranges)}>Генерировать</button>
