@@ -26,7 +26,7 @@ import TextAreaArray from "$lib/components/TextAreaArray.svelte";
 
 			</div>
 			<div class="m-2">
-				<TextAreaArray bind:values = {r_input.subjects} />	
+				<TextAreaArray label="Дисциплины" bind:values = {r_input.subjects} />	
 			</div>
 			<button class='btn block h-12' onclick={() => remove_report_at_idx(r_idx)}>Удалить отчет</button>
 
